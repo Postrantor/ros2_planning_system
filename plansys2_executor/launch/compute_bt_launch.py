@@ -46,8 +46,7 @@ def generate_launch_description():
     declare_use_groot_cmd = DeclareLaunchArgument(
         'use_groot',
         default_value='False',
-        description='Whether to start groot'
-    )
+        description='Whether to start groot')
 
     declare_use_rqt_dotgraph_cmd = DeclareLaunchArgument(
         'use_rqt_dotgraph',
@@ -55,30 +54,29 @@ def generate_launch_description():
         description='Whether to start rqt_dotgraph',
     )
 
-    declare_namespace_cmd = DeclareLaunchArgument(
-        'namespace',
-        default_value='ai_planning',
-        description='Namespace')
+    declare_namespace_cmd = DeclareLaunchArgument('namespace',
+                                                  default_value='ai_planning',
+                                                  description='Namespace')
 
     declare_action_bt_file_cmd = DeclareLaunchArgument(
         'action_bt_file',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'behavior_trees', 'plansys2_action_bt.xml'),
+            get_package_share_directory('plansys2_executor'), 'behavior_trees',
+            'plansys2_action_bt.xml'),
         description='BT representing a PDDL action')
 
     declare_start_action_bt_file_cmd = DeclareLaunchArgument(
         'start_action_bt_file',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'behavior_trees', 'plansys2_start_action_bt.xml'),
+            get_package_share_directory('plansys2_executor'), 'behavior_trees',
+            'plansys2_start_action_bt.xml'),
         description='BT representing a PDDL start action')
 
     declare_end_action_bt_file_cmd = DeclareLaunchArgument(
         'end_action_bt_file',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'behavior_trees', 'plansys2_end_action_bt.xml'),
+            get_package_share_directory('plansys2_executor'), 'behavior_trees',
+            'plansys2_end_action_bt.xml'),
         description='BT representing a PDDL end action')
 
     declare_bt_builder_plugin_cmd = DeclareLaunchArgument(
@@ -90,16 +88,16 @@ def generate_launch_description():
     declare_domain_cmd = DeclareLaunchArgument(
         'domain',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'pddl', 'road_trip_domain.pddl'),
+            get_package_share_directory('plansys2_executor'), 'pddl',
+            'road_trip_domain.pddl'),
         description='PDDL domain file.',
     )
 
     declare_problem_cmd = DeclareLaunchArgument(
         'problem',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'pddl', 'road_trip_problem.pddl'),
+            get_package_share_directory('plansys2_executor'), 'pddl',
+            'road_trip_problem.pddl'),
         description='PDDL domain file.',
     )
 
@@ -120,8 +118,12 @@ def generate_launch_description():
         condition=IfCondition(use_rqt_dotgraph),
         output='screen',
         parameters=[
-            {'title': 'Plan Viewer'},
-            {'use_sim_time': False},
+            {
+                'title': 'Plan Viewer'
+            },
+            {
+                'use_sim_time': False
+            },
         ],
         remappings=[
             ('dot_graph', '/ai_planning/plan_dotgraph'),
@@ -129,28 +131,39 @@ def generate_launch_description():
         arguments=['--ros-args', '--log-level', 'WARN'],
     )
 
-    compute_bt_cmd = Node(
-        package='plansys2_executor',
-        executable='compute_bt',
-        name='compute_bt',
-        namespace=namespace,
-        output='screen',
-        parameters=[
-          {'action_bt_xml_filename': action_bt_file},
-          {'start_action_bt_xml_filename': start_action_bt_file},
-          {'end_action_bt_xml_filename': end_action_bt_file},
-          {'bt_builder_plugin': bt_builder_plugin},
-          {'domain': domain},
-          {'problem': problem},
-        ])
+    compute_bt_cmd = Node(package='plansys2_executor',
+                          executable='compute_bt',
+                          name='compute_bt',
+                          namespace=namespace,
+                          output='screen',
+                          parameters=[
+                              {
+                                  'action_bt_xml_filename': action_bt_file
+                              },
+                              {
+                                  'start_action_bt_xml_filename':
+                                  start_action_bt_file
+                              },
+                              {
+                                  'end_action_bt_xml_filename':
+                                  end_action_bt_file
+                              },
+                              {
+                                  'bt_builder_plugin': bt_builder_plugin
+                              },
+                              {
+                                  'domain': domain
+                              },
+                              {
+                                  'problem': problem
+                              },
+                          ])
 
-    visualization_group_cmd = GroupAction(
-        [
-            PushRosNamespace(namespace='visualization'),
-            start_groot_cmd,
-            start_plan_viewer_cmd,
-        ]
-    )
+    visualization_group_cmd = GroupAction([
+        PushRosNamespace(namespace='visualization'),
+        start_groot_cmd,
+        start_plan_viewer_cmd,
+    ])
 
     # Create the launch description and populate
     ld = LaunchDescription()

@@ -12,33 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
-#include <map>
-#include <memory>
-#include <tuple>
-
 #include "plansys2_executor/behavior_tree/check_overall_req_node.hpp"
 
-namespace plansys2
-{
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
 
-CheckOverAllReq::CheckOverAllReq(
-  const std::string & xml_tag_name,
-  const BT::NodeConfiguration & conf)
-: ActionNodeBase(xml_tag_name, conf)
-{
+namespace plansys2 {
+
+CheckOverAllReq::CheckOverAllReq(const std::string& xml_tag_name, const BT::NodeConfiguration& conf)
+    : ActionNodeBase(xml_tag_name, conf) {
   action_map_ =
-    config().blackboard->get<std::shared_ptr<std::map<std::string, ActionExecutionInfo>>>(
-    "action_map");
+      config().blackboard->get<std::shared_ptr<std::map<std::string, ActionExecutionInfo>>>(
+          "action_map");
 
   problem_client_ =
-    config().blackboard->get<std::shared_ptr<plansys2::ProblemExpertClient>>(
-    "problem_client");
+      config().blackboard->get<std::shared_ptr<plansys2::ProblemExpertClient>>("problem_client");
 }
 
-BT::NodeStatus
-CheckOverAllReq::tick()
-{
+BT::NodeStatus CheckOverAllReq::tick() {
   std::string action;
   getInput("action", action);
 
@@ -50,9 +43,10 @@ CheckOverAllReq::tick()
     (*action_map_)[action].execution_error_info = "Error checking over all requirements";
 
     RCLCPP_ERROR_STREAM(
-      node->get_logger(),
-      "[" << action << "]" << (*action_map_)[action].execution_error_info << ": " <<
-        parser::pddl::toString((*action_map_)[action].durative_action_info->over_all_requirements));
+        node->get_logger(),
+        "[" << action << "]" << (*action_map_)[action].execution_error_info << ": "
+            << parser::pddl::toString(
+                   (*action_map_)[action].durative_action_info->over_all_requirements));
 
     return BT::NodeStatus::FAILURE;
   } else {

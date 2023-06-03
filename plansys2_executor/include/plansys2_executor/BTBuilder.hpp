@@ -22,56 +22,41 @@
 #include "plansys2_executor/ActionExecutor.hpp"
 #include "plansys2_msgs/msg/plan.hpp"
 
-namespace plansys2
-{
+namespace plansys2 {
 
-enum struct ActionType
-{
-  UNKNOWN,
-  INIT,
-  DURATIVE,
-  START,
-  OVERALL,
-  END,
-  GOAL
-};
+enum struct ActionType { UNKNOWN, INIT, DURATIVE, START, OVERALL, END, GOAL };
 
-struct ActionStamped
-{
+struct ActionStamped {
   float time;
   std::string expression;
   float duration;
   ActionType type;
   std::shared_ptr<plansys2_msgs::msg::DurativeAction> action;
 
-  ActionStamped()
-  : time(0.0), duration(0.0) {}
+  ActionStamped() : time(0.0), duration(0.0) {}
 };
 
-class BTBuilder
-{
+class BTBuilder {
 public:
   using Ptr = std::shared_ptr<plansys2::BTBuilder>;
 
   virtual void initialize(
-    const std::string & bt_action_1 = "",
-    const std::string & bt_action_2 = "",
-    int precision = 3) = 0;
+      const std::string& bt_action_1 = "",
+      const std::string& bt_action_2 = "",
+      int precision = 3) = 0;
 
-  virtual std::string get_tree(const plansys2_msgs::msg::Plan & current_plan) = 0;
+  virtual std::string get_tree(const plansys2_msgs::msg::Plan& current_plan) = 0;
   virtual std::string get_dotgraph(
-    std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map,
-    bool enable_legend = false,
-    bool enable_print_graph = false) = 0;
+      std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map,
+      bool enable_legend = false,
+      bool enable_print_graph = false) = 0;
 
-  static int to_int_time(float time, int power)
-  {
+  static int to_int_time(float time, int power) {
     float scale = pow(10.0, static_cast<float>(power));
     return static_cast<int>(time * scale);
   }
 
-  static std::string to_string(const ActionType & action_type)
-  {
+  static std::string to_string(const ActionType& action_type) {
     switch (action_type) {
       case ActionType::INIT:
         return "INIT";
@@ -90,13 +75,11 @@ public:
     }
   }
 
-  static std::string to_action_id(const plansys2_msgs::msg::PlanItem & item, int precision)
-  {
+  static std::string to_action_id(const plansys2_msgs::msg::PlanItem& item, int precision) {
     return item.action + ":" + std::to_string(to_int_time(item.time, precision));
   }
 
-  static std::string to_action_id(const ActionStamped & action, int precision)
-  {
+  static std::string to_action_id(const ActionStamped& action, int precision) {
     return action.expression + ":" + std::to_string(to_int_time(action.time, precision));
   }
 };

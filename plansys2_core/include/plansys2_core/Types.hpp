@@ -21,62 +21,50 @@
 #include "plansys2_msgs/msg/node.hpp"
 #include "plansys2_msgs/msg/param.hpp"
 #include "plansys2_msgs/msg/tree.hpp"
-
 #include "plansys2_pddl_parser/Utils.h"
 
-namespace plansys2
-{
+namespace plansys2 {
 
-class Instance : public plansys2_msgs::msg::Param
-{
+class Instance : public plansys2_msgs::msg::Param {
 public:
-  Instance()
-  : plansys2_msgs::msg::Param() {}
-  explicit Instance(const std::string & name, const std::string & type = {})
-  : plansys2_msgs::msg::Param(parser::pddl::fromStringParam(name, type)) {}
-  Instance(const plansys2_msgs::msg::Param & instance)  // NOLINT(runtime/explicit)
-  : plansys2_msgs::msg::Param(instance) {}
+  Instance() : plansys2_msgs::msg::Param() {}
+  explicit Instance(const std::string& name, const std::string& type = {})
+      : plansys2_msgs::msg::Param(parser::pddl::fromStringParam(name, type)) {}
+  Instance(const plansys2_msgs::msg::Param& instance)  // NOLINT(runtime/explicit)
+      : plansys2_msgs::msg::Param(instance) {}
 };
 
-class Predicate : public plansys2_msgs::msg::Node
-{
+class Predicate : public plansys2_msgs::msg::Node {
 public:
-  Predicate()
-  : plansys2_msgs::msg::Node() {}
-  explicit Predicate(const std::string & pred)
-  : plansys2_msgs::msg::Node(parser::pddl::fromStringPredicate(pred)) {}
-  Predicate(const plansys2_msgs::msg::Node & pred)  // NOLINT(runtime/explicit)
-  : plansys2_msgs::msg::Node(pred) {}
+  Predicate() : plansys2_msgs::msg::Node() {}
+  explicit Predicate(const std::string& pred)
+      : plansys2_msgs::msg::Node(parser::pddl::fromStringPredicate(pred)) {}
+  Predicate(const plansys2_msgs::msg::Node& pred)  // NOLINT(runtime/explicit)
+      : plansys2_msgs::msg::Node(pred) {}
 };
 
-class Function : public plansys2_msgs::msg::Node
-{
+class Function : public plansys2_msgs::msg::Node {
 public:
-  Function()
-  : plansys2_msgs::msg::Node() {}
-  explicit Function(const std::string & func)
-  : plansys2_msgs::msg::Node(parser::pddl::fromStringFunction(func)) {}
-  Function(const plansys2_msgs::msg::Node & func)  // NOLINT(runtime/explicit)
-  : plansys2_msgs::msg::Node(func) {}
+  Function() : plansys2_msgs::msg::Node() {}
+  explicit Function(const std::string& func)
+      : plansys2_msgs::msg::Node(parser::pddl::fromStringFunction(func)) {}
+  Function(const plansys2_msgs::msg::Node& func)  // NOLINT(runtime/explicit)
+      : plansys2_msgs::msg::Node(func) {}
 };
 
-class Goal : public plansys2_msgs::msg::Tree
-{
+class Goal : public plansys2_msgs::msg::Tree {
 public:
-  Goal()
-  : plansys2_msgs::msg::Tree() {}
-  explicit Goal(const std::string & goal)
-  : plansys2_msgs::msg::Tree(parser::pddl::fromString(goal)) {}
-  Goal(const plansys2_msgs::msg::Tree & goal)  // NOLINT(runtime/explicit)
-  : plansys2_msgs::msg::Tree(goal) {}
+  Goal() : plansys2_msgs::msg::Tree() {}
+  explicit Goal(const std::string& goal)
+      : plansys2_msgs::msg::Tree(parser::pddl::fromString(goal)) {}
+  Goal(const plansys2_msgs::msg::Tree& goal)  // NOLINT(runtime/explicit)
+      : plansys2_msgs::msg::Tree(goal) {}
 };
 
-template<class toT, class fromT>
-std::vector<toT>
-convertVector(const std::vector<fromT> & in_vector)
-{
+template <class toT, class fromT>
+std::vector<toT> convertVector(const std::vector<fromT>& in_vector) {
   std::vector<toT> ret;
-  for (const auto & item : in_vector) {
+  for (const auto& item : in_vector) {
     ret.push_back(item);
   }
   return ret;

@@ -8,7 +8,7 @@ When it is required to generate a plan, Plansys2 generates a file with the domai
 
 It is possible to execute the plan solver in isolation using the command:
 
-``` shell
+```shell
 ros2 run popf popf /tmp/${namespace}/domain.pddl /tmp/${namespace}/problem.pddl
 ```
 

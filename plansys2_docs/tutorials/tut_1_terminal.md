@@ -4,13 +4,13 @@ Check out this [PDDL domain example](https://github.com/IntelligentRoboticsLabs/
 
 Open a terminal and launch plansys2. We will use a launcher that includes the main planning system launcher, the specific action nodes for this example, and selects the domain:
 
-``` shell
+```shell
 ros2 launch plansys2_simple_example plansys2_simple_example_launch.py
 ```
 
 or
 
-``` shell
+```shell
 ros2 launch plansys2_simple_example plansys2_simple_example_launch.py namespace:=my_namespace
 ```
 
@@ -18,13 +18,13 @@ if you want to launch it in `my_namespace` namespace.
 
 Open other terminal and launch the plansys2 terminal:
 
-``` shell
+```shell
 ros2 run plansys2_terminal plansys2_terminal
 ```
 
 or, if you used a namespace
 
-``` shell
+```shell
 ros2 run plansys2_terminal plansys2_terminal --ros-args -r __ns:=/my_namespace
 ```
 
@@ -32,25 +32,25 @@ The plansys2 terminal lets us operate directly against the planning system. It i
 
 Inside the plansys2 terminal, you can check the domain:
 
-``` plansys2_terminal
+```plansys2_terminal
 > get domain
 ```
 
 You also can check the current instances in the plan, that now it's void:
 
-``` plansys2_terminal
+```plansys2_terminal
 > get problem instances
 ```
 
 To get the current predicates:
 
-``` plansys2_terminal
+```plansys2_terminal
 > get problem predicates
 ```
 
 Now, the problem is void. Let's add some content and recheck it after.
 
-``` plansys2_terminal
+```plansys2_terminal
 > set instance leia robot
 > set instance entrance room
 > set instance kitchen room
@@ -75,7 +75,7 @@ Now, the problem is void. Let's add some content and recheck it after.
 
 Once added content to the problem, verify the content of the problem again:
 
-``` plansys2_terminal
+```plansys2_terminal
 > get problem instances
 ...
 > get problem predicates
@@ -83,15 +83,15 @@ Once added content to the problem, verify the content of the problem again:
 
 Lets planify. Add a goal to be achieved:
 
-``` plansys2_terminal
+```plansys2_terminal
 > set goal (and(robot_at leia bathroom))
 ```
 
 And get the plan. This command will not execute the plan. Only will calculate it:
 
-``` plansys2_terminal
+```plansys2_terminal
 > get plan
-plan: 
+plan:
 0 (askcharge leia entrance chargingroom) 5
 0.001 (charge leia chargingroom) 5
 5.002 (move leia chargingroom kitchen) 5
@@ -102,7 +102,7 @@ plan:
 
 To run the plan, type:
 
-``` plansys2_terminal
+```plansys2_terminal
 run
 ```
 

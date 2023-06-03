@@ -12,28 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
-#include <map>
-#include <memory>
-
 #include "plansys2_executor/behavior_tree/check_action_node.hpp"
 
-namespace plansys2
-{
+#include <map>
+#include <memory>
+#include <string>
 
-CheckAction::CheckAction(
-  const std::string & xml_tag_name,
-  const BT::NodeConfiguration & conf)
-: ActionNodeBase(xml_tag_name, conf)
-{
+namespace plansys2 {
+
+CheckAction::CheckAction(const std::string& xml_tag_name, const BT::NodeConfiguration& conf)
+    : ActionNodeBase(xml_tag_name, conf) {
   action_map_ =
-    config().blackboard->get<std::shared_ptr<std::map<std::string, ActionExecutionInfo>>>(
-    "action_map");
+      config().blackboard->get<std::shared_ptr<std::map<std::string, ActionExecutionInfo>>>(
+          "action_map");
 }
 
-BT::NodeStatus
-CheckAction::tick()
-{
+BT::NodeStatus CheckAction::tick() {
   std::string action;
   getInput("action", action);
 
@@ -42,10 +36,9 @@ CheckAction::tick()
   }
 
   if ((*action_map_)[action].action_executor != nullptr &&
-    (*action_map_)[action].action_executor->is_finished() &&
-    (*action_map_)[action].at_start_effects_applied &&
-    (*action_map_)[action].at_end_effects_applied)
-  {
+      (*action_map_)[action].action_executor->is_finished() &&
+      (*action_map_)[action].at_start_effects_applied &&
+      (*action_map_)[action].at_end_effects_applied) {
     return BT::NodeStatus::SUCCESS;
   } else {
     return BT::NodeStatus::RUNNING;

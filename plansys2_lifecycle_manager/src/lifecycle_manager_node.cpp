@@ -13,50 +13,66 @@
 // limitations under the License.
 
 #include <chrono>
+#include <map>
 #include <memory>
 #include <string>
-#include <map>
-
-#include "rclcpp/rclcpp.hpp"
 
 #include "plansys2_lifecycle_manager/lifecycle_manager.hpp"
+#include "rclcpp/rclcpp.hpp"
 
-int main(int argc, char ** argv)
-{
+/**
+ * @brief 主函数
+ * @param argc 命令行参数个数
+ * @param argv 命令行参数列表
+ * @return 程序退出状态码
+ */
+int main(int argc, char** argv) {
+  // 设置标准输出缓冲区，避免输出混乱
   setvbuf(stdout, NULL, _IONBF, BUFSIZ);
 
+  // 初始化 ROS2 节点
   rclcpp::init(argc, argv);
 
+  // 创建生命周期管理器节点的 map 容器
   std::map<std::string, std::shared_ptr<plansys2::LifecycleServiceClient>> manager_nodes;
-  manager_nodes["domain_expert"] = std::make_shared<plansys2::LifecycleServiceClient>(
-    "domain_expert_lc_mngr", "domain_expert");
-  manager_nodes["problem_expert"] = std::make_shared<plansys2::LifecycleServiceClient>(
-    "problem_expert_lc_mngr", "problem_expert");
-  manager_nodes["planner"] = std::make_shared<plansys2::LifecycleServiceClient>(
-    "planner_lc_mngr", "planner");
-  manager_nodes["executor"] = std::make_shared<plansys2::LifecycleServiceClient>(
-    "executor_lc_mngr", "executor");
 
+  // 向 map 容器中添加领域专家、问题专家、规划器和执行器生命周期管理器节点
+  manager_nodes["domain_expert"] =
+      std::make_shared<plansys2::LifecycleServiceClient>("domain_expert_lc_mngr", "domain_expert");
+  manager_nodes["problem_expert"] = std::make_shared<plansys2::LifecycleServiceClient>(
+      "problem_expert_lc_mngr", "problem_expert");
+  manager_nodes["planner"] =
+      std::make_shared<plansys2::LifecycleServiceClient>("planner_lc_mngr", "planner");
+  manager_nodes["executor"] =
+      std::make_shared<plansys2::LifecycleServiceClient>("executor_lc_mngr", "executor");
+
+  // 创建单线程执行器
   rclcpp::executors::SingleThreadedExecutor exe;
-  for (auto & manager_node : manager_nodes) {
+
+  // 遍历生命周期管理器节点 map 容器
+  for (auto& manager_node : manager_nodes) {
+    // 初始化生命周期管理器节点
     manager_node.second->init();
+    // 将生命周期管理器节点添加到单线程执行器中
     exe.add_node(manager_node.second);
   }
 
+  // 异步启动 plansys2，等待启动完成
   std::shared_future<bool> startup_future = std::async(
-    std::launch::async,
-    std::bind(plansys2::startup_function, manager_nodes, std::chrono::seconds(5)));
+      std::launch::async,
+      std::bind(plansys2::startup_function, manager_nodes, std::chrono::seconds(5)));
   exe.spin_until_future_complete(startup_future);
 
+  // 如果 plansys2 启动失败，则输出错误信息并退出程序
   if (!startup_future.get()) {
-    RCLCPP_ERROR(
-      rclcpp::get_logger("plansys2_lifecycle_manager"),
-      "Failed to start plansys2!");
+    RCLCPP_ERROR(rclcpp::get_logger("plansys2_lifecycle_manager"), "Failed to start plansys2!");
     rclcpp::shutdown();
     return -1;
   }
 
+  // 关闭 ROS2 节点
   rclcpp::shutdown();
 
+  // 返回程序退出状态码
   return 0;
 }

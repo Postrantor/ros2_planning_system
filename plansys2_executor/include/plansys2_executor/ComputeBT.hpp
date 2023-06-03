@@ -18,6 +18,8 @@
 #include <memory>
 #include <string>
 
+#include "lifecycle_msgs/msg/state.hpp"
+#include "lifecycle_msgs/msg/transition.hpp"
 #include "plansys2_domain_expert/DomainExpertClient.hpp"
 #include "plansys2_domain_expert/DomainExpertNode.hpp"
 #include "plansys2_executor/BTBuilder.hpp"
@@ -26,36 +28,27 @@
 #include "plansys2_planner/PlannerNode.hpp"
 #include "plansys2_problem_expert/ProblemExpertClient.hpp"
 #include "plansys2_problem_expert/ProblemExpertNode.hpp"
-
-#include "lifecycle_msgs/msg/state.hpp"
-#include "lifecycle_msgs/msg/transition.hpp"
-
-#include "std_srvs/srv/trigger.hpp"
-
+#include "pluginlib/class_list_macros.hpp"
+#include "pluginlib/class_loader.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 #include "rclcpp_lifecycle/lifecycle_publisher.hpp"
+#include "std_srvs/srv/trigger.hpp"
 
-#include "pluginlib/class_loader.hpp"
-#include "pluginlib/class_list_macros.hpp"
+namespace plansys2 {
 
-namespace plansys2
-{
-
-class ComputeBT : public rclcpp_lifecycle::LifecycleNode
-{
+class ComputeBT : public rclcpp_lifecycle::LifecycleNode {
 public:
-  using CallbackReturnT =
-    rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+  using CallbackReturnT = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
   ComputeBT();
 
-  CallbackReturnT on_configure(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_activate(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_deactivate(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_cleanup(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_error(const rclcpp_lifecycle::State & state);
+  CallbackReturnT on_configure(const rclcpp_lifecycle::State& state);
+  CallbackReturnT on_activate(const rclcpp_lifecycle::State& state);
+  CallbackReturnT on_deactivate(const rclcpp_lifecycle::State& state);
+  CallbackReturnT on_cleanup(const rclcpp_lifecycle::State& state);
+  CallbackReturnT on_shutdown(const rclcpp_lifecycle::State& state);
+  CallbackReturnT on_error(const rclcpp_lifecycle::State& state);
 
 private:
   std::string action_bt_xml_;
@@ -75,14 +68,14 @@ private:
   rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::String>::SharedPtr dotgraph_pub_;
 
   void computeBTCallback(
-    const std::shared_ptr<rmw_request_id_t> request_header,
-    const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
-    const std::shared_ptr<std_srvs::srv::Trigger::Response> response);
+      const std::shared_ptr<rmw_request_id_t> request_header,
+      const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
+      const std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  std::string getProblem(const std::string & filename) const;
-  void savePlan(const plansys2_msgs::msg::Plan & plan, const std::string & filename) const;
-  void saveBT(const std::string & bt_xml, const std::string & filename) const;
-  void saveDotGraph(const std::string & dotgraph, const std::string & filename) const;
+  std::string getProblem(const std::string& filename) const;
+  void savePlan(const plansys2_msgs::msg::Plan& plan, const std::string& filename) const;
+  void saveBT(const std::string& bt_xml, const std::string& filename) const;
+  void saveDotGraph(const std::string& dotgraph, const std::string& filename) const;
 };
 
 }  // namespace plansys2

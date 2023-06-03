@@ -12,30 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <optional>
-#include <filesystem>
-#include <iomanip>
-#include <algorithm>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <memory>
-#include <chrono>
-
-#include "behaviortree_cpp_v3/utils/shared_library.h"
 #include "plansys2_bt_actions/BTAction.hpp"
 
-namespace plansys2
-{
+#include <algorithm>
+#include <chrono>
+#include <filesystem>
+#include <iomanip>
+#include <memory>
+#include <optional>
+#include <sstream>
+#include <string>
+#include <vector>
 
-BTAction::BTAction(
-  const std::string & action,
-  const std::chrono::nanoseconds & rate)
-: ActionExecutorClient(action, rate)
-{
+#include "behaviortree_cpp_v3/utils/shared_library.h"
+
+namespace plansys2 {
+
+BTAction::BTAction(const std::string& action, const std::chrono::nanoseconds& rate)
+    : ActionExecutorClient(action, rate) {
   declare_parameter<std::string>("bt_xml_file", "");
-  declare_parameter<std::vector<std::string>>(
-    "plugins", std::vector<std::string>({}));
+  declare_parameter<std::vector<std::string>>("plugins", std::vector<std::string>({}));
   declare_parameter<bool>("bt_file_logging", false);
   declare_parameter<bool>("bt_minitrace_logging", false);
 #ifdef ZMQ_FOUND
@@ -46,9 +42,8 @@ BTAction::BTAction(
 #endif
 }
 
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
-BTAction::on_configure(const rclcpp_lifecycle::State & previous_state)
-{
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn BTAction::on_configure(
+    const rclcpp_lifecycle::State& previous_state) {
   get_parameter("action_name", action_);
   get_parameter("bt_xml_file", bt_xml_file_);
 
@@ -72,22 +67,18 @@ BTAction::on_configure(const rclcpp_lifecycle::State & previous_state)
   return ActionExecutorClient::on_configure(previous_state);
 }
 
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
-BTAction::on_cleanup(const rclcpp_lifecycle::State & previous_state)
-{
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn BTAction::on_cleanup(
+    const rclcpp_lifecycle::State& previous_state) {
   publisher_zmq_.reset();
   return ActionExecutorClient::on_cleanup(previous_state);
 }
 
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
-BTAction::on_activate(const rclcpp_lifecycle::State & previous_state)
-{
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn BTAction::on_activate(
+    const rclcpp_lifecycle::State& previous_state) {
   try {
     tree_ = factory_.createTreeFromFile(bt_xml_file_, blackboard_);
-  } catch (const std::exception & ex) {
-    RCLCPP_ERROR_STREAM(
-      get_logger(),
-      "Failed to create BT with exception: " << ex.what());
+  } catch (const std::exception& ex) {
+    RCLCPP_ERROR_STREAM(get_logger(), "Failed to create BT with exception: " << ex.what());
     RCLCPP_ERROR(get_logger(), "Transition to activate failed");
     return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::FAILURE;
   }
@@ -98,34 +89,27 @@ BTAction::on_activate(const rclcpp_lifecycle::State & previous_state)
   }
 
   if (get_parameter("bt_file_logging").as_bool() ||
-    get_parameter("bt_minitrace_logging").as_bool())
-  {
+      get_parameter("bt_minitrace_logging").as_bool()) {
     auto temp_path = std::filesystem::temp_directory_path();
     std::filesystem::path node_name_path = get_name();
     std::filesystem::create_directories(temp_path / node_name_path);
 
-    auto now_time_t =
-      std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    auto now_time_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::stringstream filename;
     filename << "/tmp/" << get_name() << "/bt_trace_";
     filename << std::put_time(std::localtime(&now_time_t), "%Y_%m_%d__%H_%M_%S");
 
     if (get_parameter("bt_file_logging").as_bool()) {
       std::string filename_extension = filename.str() + ".fbl";
-      RCLCPP_INFO_STREAM(
-        get_logger(),
-        "Logging to file: " << filename_extension);
-      bt_file_logger_ =
-        std::make_unique<BT::FileLogger>(tree_, filename_extension.c_str());
+      RCLCPP_INFO_STREAM(get_logger(), "Logging to file: " << filename_extension);
+      bt_file_logger_ = std::make_unique<BT::FileLogger>(tree_, filename_extension.c_str());
     }
 
     if (get_parameter("bt_minitrace_logging").as_bool()) {
       std::string filename_extension = filename.str() + ".json";
-      RCLCPP_INFO_STREAM(
-        get_logger(),
-        "Logging to file: " << filename_extension);
+      RCLCPP_INFO_STREAM(get_logger(), "Logging to file: " << filename_extension);
       bt_minitrace_logger_ =
-        std::make_unique<BT::MinitraceLogger>(tree_, filename_extension.c_str());
+          std::make_unique<BT::MinitraceLogger>(tree_, filename_extension.c_str());
     }
   }
 
@@ -136,21 +120,19 @@ BTAction::on_activate(const rclcpp_lifecycle::State & previous_state)
 
   if (publisher_port <= 0 || server_port <= 0) {
     RCLCPP_WARN(
-      get_logger(),
-      "[%s] Groot monitoring ports not provided, disabling Groot monitoring."
-      " publisher port: %d, server port: %d",
-      get_name(), publisher_port, server_port);
+        get_logger(),
+        "[%s] Groot monitoring ports not provided, disabling Groot monitoring."
+        " publisher port: %d, server port: %d",
+        get_name(), publisher_port, server_port);
   } else if (get_parameter("enable_groot_monitoring").as_bool()) {
     RCLCPP_DEBUG(
-      get_logger(),
-      "[%s] Groot monitoring: Publisher port: %d, Server port: %d, Max msgs per second: %d",
-      get_name(), publisher_port, server_port, max_msgs_per_second);
+        get_logger(),
+        "[%s] Groot monitoring: Publisher port: %d, Server port: %d, Max msgs per second: %d",
+        get_name(), publisher_port, server_port, max_msgs_per_second);
     try {
       publisher_zmq_.reset(
-        new BT::PublisherZMQ(
-          tree_, max_msgs_per_second, publisher_port,
-          server_port));
-    } catch (const BT::LogicError & exc) {
+          new BT::PublisherZMQ(tree_, max_msgs_per_second, publisher_port, server_port));
+    } catch (const BT::LogicError& exc) {
       RCLCPP_ERROR(get_logger(), "ZMQ error: %s", exc.what());
     }
   }
@@ -160,9 +142,8 @@ BTAction::on_activate(const rclcpp_lifecycle::State & previous_state)
   return ActionExecutorClient::on_activate(previous_state);
 }
 
-rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
-BTAction::on_deactivate(const rclcpp_lifecycle::State & previous_state)
-{
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn BTAction::on_deactivate(
+    const rclcpp_lifecycle::State& previous_state) {
   publisher_zmq_.reset();
   bt_minitrace_logger_.reset();
   bt_file_logger_.reset();
@@ -171,9 +152,7 @@ BTAction::on_deactivate(const rclcpp_lifecycle::State & previous_state)
   return ActionExecutorClient::on_deactivate(previous_state);
 }
 
-void
-BTAction::do_work()
-{
+void BTAction::do_work() {
   if (!finished_) {
     BT::NodeStatus result;
     try {

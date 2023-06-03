@@ -30,30 +30,29 @@ def generate_launch_description():
     end_action_bt_file = LaunchConfiguration('end_action_bt_file')
     bt_builder_plugin = LaunchConfiguration('bt_builder_plugin')
 
-    declare_namespace_cmd = DeclareLaunchArgument(
-        'namespace',
-        default_value='',
-        description='Namespace')
+    declare_namespace_cmd = DeclareLaunchArgument('namespace',
+                                                  default_value='',
+                                                  description='Namespace')
 
     declare_action_bt_file_cmd = DeclareLaunchArgument(
         'action_bt_file',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'behavior_trees', 'plansys2_action_bt.xml'),
+            get_package_share_directory('plansys2_executor'), 'behavior_trees',
+            'plansys2_action_bt.xml'),
         description='BT representing a PDDL action')
 
     declare_start_action_bt_file_cmd = DeclareLaunchArgument(
         'start_action_bt_file',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'behavior_trees', 'plansys2_start_action_bt.xml'),
+            get_package_share_directory('plansys2_executor'), 'behavior_trees',
+            'plansys2_start_action_bt.xml'),
         description='BT representing a PDDL start action')
 
     declare_end_action_bt_file_cmd = DeclareLaunchArgument(
         'end_action_bt_file',
         default_value=os.path.join(
-          get_package_share_directory('plansys2_executor'),
-          'behavior_trees', 'plansys2_end_action_bt.xml'),
+            get_package_share_directory('plansys2_executor'), 'behavior_trees',
+            'plansys2_end_action_bt.xml'),
         description='BT representing a PDDL end action')
 
     declare_bt_builder_plugin_cmd = DeclareLaunchArgument(
@@ -63,19 +62,23 @@ def generate_launch_description():
     )
 
     # Specify the actions
-    executor_cmd = Node(
-        package='plansys2_executor',
-        executable='executor_node',
-        name='executor',
-        namespace=namespace,
-        output='screen',
-        parameters=[
-          {'default_action_bt_xml_filename': action_bt_file},
-          {'default_start_action_bt_xml_filename': start_action_bt_file},
-          {'default_end_action_bt_xml_filename': end_action_bt_file},
-          {'bt_builder_plugin': bt_builder_plugin},
-          params_file
-        ])
+    executor_cmd = Node(package='plansys2_executor',
+                        executable='executor_node',
+                        name='executor',
+                        namespace=namespace,
+                        output='screen',
+                        parameters=[{
+                            'default_action_bt_xml_filename':
+                            action_bt_file
+                        }, {
+                            'default_start_action_bt_xml_filename':
+                            start_action_bt_file
+                        }, {
+                            'default_end_action_bt_xml_filename':
+                            end_action_bt_file
+                        }, {
+                            'bt_builder_plugin': bt_builder_plugin
+                        }, params_file])
 
     # Create the launch description and populate
     ld = LaunchDescription()
