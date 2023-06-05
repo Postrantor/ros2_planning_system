@@ -17,8 +17,7 @@
 #include "plansys2_problem_expert/ProblemExpertNode.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
   auto node = std::make_shared<plansys2::ProblemExpertNode>();
   rclcpp::spin(node->get_node_base_interface());

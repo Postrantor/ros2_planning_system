@@ -40,7 +40,6 @@ LifecycleServiceClient::LifecycleServiceClient(
 
 /**
  * @brief 初始化LifecycleServiceClient对象。
- *
  */
 void LifecycleServiceClient::init() {
   // 获取管理节点的状态服务和更改状态服务的名称。

@@ -1,267 +1,218 @@
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package plansys2_executor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-2.0.8 (2022-05-04)
-------------------
-
-2.0.7 (2022-05-04)
-------------------
-
-2.0.6 (2022-05-03)
-------------------
-
-2.0.5 (2022-05-03)
-------------------
-
-2.0.4 (2022-05-03)
-------------------
-* Fix version
-* Merge pull request `#223 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/223>`_ from IntelligentRoboticsLabs/fix_threads_buildfarm
-  Fix threads buildfarm
-* Fix ROS2 Buildfarm error due to Threads
-* Merge pull request `#217 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/217>`_ from jjzapf/check-action-finished
-  Check action finished
-* check-action-finished: Putting leftover requirement check after state update in get_graph function.
-* check-action-finished: Use distinct names for temporary predicate/function variables inside of while loop.
-* check-action-finished: Reverting previous changes. Adding checks to WaitAction node to verify that action has finished.
-* check-action-finished: Fixing problem_expert.wait_overall_req_test in plansys2_executor/bt_node_test.cpp.
-* check-action-finished: Do not declare failure in check_overall_req_node if action has already finished.
-* Merge pull request `#209 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/209>`_ from sarcasticnature/master
-  Improvements on recent BtActionNode changes
-* Merge pull request `#216 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/216>`_ from jjzapf/action-graph-bug-fix
-  Plan-to-Action Graph Bug Fix
-* action-graph-bug-fix: Not applying at end effects when testing if actions can be run in parallel. Fixing bug in prune_backwards function.
-* Update unit tests to match changes
-* Remove extra do_work() call in on_activate()
-  do_work() may call the function finish(), which will fail to deactivate
-  the node if it is still in the on_activate callback.
-* Merge branch 'IntelligentRoboticsLabs:master' into master
-* Merge pull request `#208 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/208>`_ from xydesa/plan-dotgraph-bug
-  Plan dotgraph color bug
-* Merge branch 'IntelligentRoboticsLabs:master' into master
-* Removing unused variable.
-* More accurately getting the status of an action by including the action's start time in the index for coloring the dotgraph.
-* Contributors: Alexander Xydes, Francisco Martín Rico, Jake Keller, Josh Zapf
-
-2.0.3 (2022-04-03)
-------------------
-
-2.0.2 (2022-04-03)
-------------------
-* Use apply and check method to create action graph
-* plan-to-action-graph-mod: Using apply and check method to search for causal links.
-* generalize-is-parallelizable: Cleaning up comments a bit.
-* generalize-is-parallelizable: Checking for contradictions at any point in time in the is_parallelizable function.
-* generalize-is-parallelizable: Improving human readability.
-* generalize-is-parallelizable: Applying ament uncrustify.
-* generalize-is-parallelizable: Generalizing the is_parallelizable function in BTBuilder so that the functions will also be checked.
-* action-graph-test: Adding unit test to verify action graph generation.
-* action-graph-fix: Using std::list to create action graph rather than …
-* action-graph-fix: Shortening line lengths to <100 characters. Applying ament uncrustify.
-* action-graph-fix: Checking for existing link before adding one when creating action graph.
-* Check all reqs and effect for roots
-* action-graph-fix: Setting executor_test TIMEOUT value to 300.
-* Add options to run command in plansys2 Terminal
-* Change runtime failures to BT::NodeStatus::FAILURE, add logging info to ExecutorClient
-* Add options to run command
-* action-graph-fix: Using std::list to create action graph rather than std::set. A std::set does not maintain insertion order, whereas a std::list does. Maintaining insertion order guarantees that graph traversal follows the same path as graph creation.
-* action-graph-test: Adding unit test to verify action graph generation.
-* Add Status recency in performers
-* Remove unnecessary node pointer
-* Merge branch 'IntelligentRoboticsLabs:master' into master
-* Logger tool - performers and plan
-* Logger tool - knowledge, info and action hub
-* Elevate failure logging from INFO to WARN/ERROR
-* Add action failure details to ExecutorClient
-* Contributors: Francisco Martín Rico, Jake Keller, Josh Zapf
-
-2.0.1 (2022-02-03)
-------------------
-* Update deprecated APIs in launchers and parameters
-* Update launcher param names
-* Improve debug info
-* remove-invalid-goals: Removing invalid goals when instances are removed. Keep track of update time in problem expert.
-* Merge galactic-devel
-* Contributors: Francisco Martín Rico, Josh Zapf
-
-2.0.0 (2021-07-04)
-------------------
-* Fix default param
-* Solve statically parameter error
-* Fix compile issues for galactic
-* Compile for ROS2 Galactic
-* Contributors: Francisco Martín Rico, Jonatan Olofsson, bjnjo
-
-1.0.10 (2021-07-03)
--------------------
-* Minor update
-* Fix tests
-* Fix rate conversions
-* Add rate parameter
-* Remove node parameter in client constructors
-* ros2-plan-msg: Passing plan to executor to add further separation between plan creation and plan execution.
-* Suggestion for `#118 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/118>`_
-* pddl-tree-messages: Performing some minor cleanup.
-* pddl-tree-messages: Using explicit specifier for single parameter constructors in plansys2_core/Types.hpp.
-* pddl-tree-messages: Replacing user access function calls with shorter versions where possible.
-* pddl-tree-messages: Adding predicate user access functions to problem expert client.
-* pddl-tree-messages: Adding predicate user access functions to problem expert client.
-* pddl-tree-messages: Applying ament uncrustify.
-* pddl-tree-messages: Updating addInstance and removeInstance calls to use helper classes.
-* pddl-tree-messages: Reverting change to log statement severity.
-* pddl-tree-messages: Removing a couple unnecessary includes.
-* pddl-tree-messages: Merging master and resolving conflicts.
-* action-timeout-clean: Renaming test behavior tree.
-* Using custom behavior tree to enable action timeouts.
-* pddl-tree-messages: Merging upstream master and resolving conflicts.
-* pddl-tree-messages: Using ROS messages to define the PDDL construct trees.
-* Adding action execution status (as color changes) to the plan dotgraph.
-  Adding legend to plan dotgraph, adding node params for dotgraph legend and printing plan graph to terminal.
-* Fix tests and linting
-* linting
-* Configurable action BT
-* Configurable BT Action
-* Reducing log message severity because lack of a plan isn't necessarily an error.
-* Reduce debug output
-* Plansys2_tests package
-* Adding unit test for getOrderedSubGoals.
-* Add GetOrderedSubGoals service to Executor, allowing executor clients to get the order in which sub-goals will be completed by the current plan.
-* Update version
-* Contributors: Alexander Xydes, Francisco Martín Rico, Greg Kogut, Josh Zapf
-
-1.0.9 (2021-03-15)
-------------------
-* Disable boost in tests
-* Contributors: Francisco Martín Rico
-1.0.8 (2021-03-12)
-------------------
-* Change default ZMQ ports
-* Removing whitespace.
-* Simplified logic.
-* Update API for FutureReturnCode
-* Handling edge cases of action failure and preventing overriding completion percentage on action completion.
-* Publishing generated plan as a dotgraph on a string topic.
-* Fix BT creation; parallel deps actions
-* Fixing feedback control
-* Action execution refactoring
-* Moving Utils file to plansys2_problem_expert since all the functions are checking information in the problem or modifying the problem.
-* utils-bug: Fixing bug in OR case of evaluate function in plansys2_executor/Utils.cpp.
-* Making zmq error message more generic to reflect that there are multiple possible reasons for a BT::LogicError to be thrown.
-* Add support to plansys2_executor/ExecutorNode for visualizing the behavior trees in Groot.
-* Moving publisher on_activate call to the ExecutorNode::on_activate callback.
-* Add support for numeric conditions and effects.
-* Monitorization info
-* Remove an unreshable return
-* Adding actor checker in terminal
-* Improving BTActions
-* Fix repeated nodes
-* New Graph creation Algorithm
-* Debugging
-* Added negative predicates support
-* Namespaced action_hub
-* Contributors: Alexander Xydes, Fabrice Larribe, Francisco Martin Rico, Greg Kogut, Josh Zapf
-
-1.0.7 (2021-01-04)
-------------------
-* Making explicit dependencies
-* Contributors: Francisco Martín Rico
-1.0.6 (2020-12-29)
-------------------
-* Disable boost functions
-* Contributors: Francisco Martín Rico
-1.0.5 (2020-12-28)
-------------------
-* Migration to c++17
-* Contributors: Francisco Martín Rico
-
-1.0.4 (2020-12-24)
-------------------
-
-1.0.3 (2020-12-23)
-------------------
-
-1.0.2 (2020-12-23)
-------------------
-* Plan solvers as plugins
-* Contributors: Fabrice Larribe, Francisco Martin Rico, f269858
-
-1.0.1 (2020-07-19)
-------------------
-
-1.0.0 (2020-07-19)
-------------------
-* Foxy initial version
-* Boost:optional
-* Support for BT actions
-* Contributors: Francisco Martin Rico
-
-0.0.8 (2020-07-18)
-------------------
-* Add BT support
-* Contributors: Francisco Martin Rico
-
-0.0.7 (2020-03-26)
-------------------
-* ActionExecutorClient is cascade_lifecycle
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Contributors: Francisco Martin Rico
-
-0.0.6 (2020-03-23)
-------------------
-* Run in separate namespaces. Monolothic node
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Contributors: Francisco Martin Rico
-
-0.0.5 (2020-01-12)
-------------------
-
-0.0.4 (2020-01-09)
-------------------
-* Adding missing action dependencies
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Contributors: Francisco Martín Rico
-0.0.3 (2020-01-09)
-------------------
-* Add popf dependency
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Contributors: Francisco Martín Rico
-0.0.2 (2020-01-08)
-------------------
-* Merge pull request `#16 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/16>`_ from IntelligentRoboticsLabs/pddl_parser_rename
-  Rename pddl_parser
-* Rename pddl_parser
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Merge pull request `#15 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/15>`_ from IntelligentRoboticsLabs/example_rename
-  Rename example. Small bug in timeouts
-* Linting
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Rename example. Small bug in timeouts
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Merge pull request `#12 <https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/12>`_ from IntelligentRoboticsLabs/actions_composition
-  Define rate dynamically
-* Define rate dynamically
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Packages.xml description
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Adding documentation
-  Signed-off-by: Francisco Martin Rico <fmartin@gsyc.urjc.es>
-* Setting CI
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Setting CI
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Setting CI
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Setting CI
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* onActivate and onFinished methods for Action Clients
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* First functional version complete
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Execute actions independiently. Example
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Change to lowercasegit
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Executor initial version
-  Signed-off-by: Francisco Martin Rico <fmrico@gmail.com>
-* Contributors: Francisco Martin Rico
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 包计划的变更日志sys2_executor
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 2.0.8（2022-05-04）
+> 2.0.7（2022-05-04）
+> 2.0.6（2022-05-03）
+> 2.0.5（2022-05-03）
+> 2.0.4（2022-05-03）
+> *修复版本
+> *合并拉取请求`#223<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/223>`_来自智能机器人实验室/fix_threads_buildfarm
+> 修复线程构建场
+> *修复由于线程导致的ROS2 Buildfarm错误
+> *合并拉取请求`#217<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/217>`_来自jjzapf/检查操作已完成
+> 检查操作已完成
+> *检查操作完成：在get_graph函数中的状态更新后放入剩余的需求检查。
+> *检查操作已完成：在while循环内为临时谓词/函数变量使用不同的名称。
+> *检查操作已完成：还原以前的更改。向WaitAction节点添加检查以验证操作是否已完成。
+> *检查操作已完成：修复plansys2_executor/bt_node_test.cpp中的problem_expert.wait_overall_req_test。
+> *检查操作已完成：如果操作已完成，则不要在check_overal_req_node中声明失败。
+> *合并拉取请求`#209<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/209>`_来自讽刺的天性/大师
+> 对最近BtActionNode更改的改进
+> *合并拉取请求`#216<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/216>`_来自jjzapf/动作图错误修复
+> 行动计划图错误修复
+> *动作图错误修复：在测试动作是否可以并行运行时，不应用最终效果。修复prune_backwards函数中的错误。
+> *更新单元测试以匹配更改
+> *删除on_activate（）中的额外do_work（）调用
+> do_work（）可能会调用函数finish（），该函数将无法停用
+> 节点（如果它仍在onactivate回调中）。
+> *将分支“智能机器人实验室：master”合并为master
+> *合并拉取请求`#208<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/208>`_来自xydesa/plandotgraph错误
+> 计划点图颜色错误
+> *将分支“智能机器人实验室：master”合并为master
+> *正在删除未使用的变量。
+> *通过将操作的开始时间包括在为点图着色的索引中，可以更准确地获取操作的状态。
+> *撰稿人：Alexander Xydes、Francisco Martín Rico、Jake Keller、Josh Zapf
+> 2.0.3（2022-04-03）
+> 2.0.2（2022-04-03）
+> *使用apply和check方法创建动作图
+> *行动计划图模式：使用应用和检查方法来搜索因果关系。
+> *generalize是可并行的：稍微清理一下注释。
+> *generalize是可并行的：在is_parallizable函数中的任何时间点检查矛盾。
+> *generalize是可并行的：提高人类可读性。
+> *泛化是可并行的：应用不可推理的苍穹。
+> *generalize是可并行的：在BTBuilder中对is_parallizable函数进行泛化，以便也检查这些函数。
+> *动作图测试：添加单元测试来验证动作图的生成。
+> *动作图修复：使用std:：list创建动作图，而不是…
+> *动作图修复：将行长度缩短到<100个字符。应用天理不证。
+> *动作图修复：创建动作图时，在添加链接之前先检查现有链接。
+> *检查根部的所有要求和效果
+> *动作图修复：将executo_test TIMEOUT值设置为300。
+> *添加选项以在plansys2终端中运行命令
+> *将运行时故障更改为BT:：NodeStatus:：FAILURE，将日志记录信息添加到ExecutiorClient
+> *添加选项以运行命令
+> *动作图修复：使用std:：list而不是std:：set来创建动作图。std:：set不维护插入顺序，而std:：list则维护插入顺序。保持插入顺序可以保证图遍历遵循与图创建相同的路径。
+> *动作图测试：添加单元测试来验证动作图的生成。
+> *添加执行者的最近状态
+> *删除不必要的节点指针
+> *将分支“智能机器人实验室：master”合并为master
+> *记录器工具-执行者和计划
+> *记录器工具-知识、信息和行动中心
+> *将故障日志记录从INFO提升到WARN/ERROR
+> *将操作失败详细信息添加到ExecutiorClient
+> *撰稿人：Francisco Martín Rico，Jake Keller，Josh Zapf
+> 2.0.1（2022-02-03）
+> *更新启动器和参数中不推荐使用的API
+> *更新启动器参数名称
+> *改进调试信息
+> *删除无效目标：删除实例时删除无效目标。跟踪问题专家的更新时间。
+> *合并星系发展
+> *撰稿人：Francisco Martín Rico，Josh Zapf
+> 2.0.0（2021-07-04）
+> *修复默认参数
+> *解决静态参数错误
+> *修复银河系的编译问题
+> *为ROS2 Galactic编译
+> *撰稿人：Francisco Martín Rico，Jonatan Olofsson，比约
+> 1.0.10（2021-07-03）
+> *次要更新
+> *修复测试
+> *固定利率转换
+> *添加速率参数
+> *删除客户端构造函数中的节点参数
+> *ros2计划消息：将计划传递给执行者，以增加计划创建和计划执行之间的进一步分离。
+> *对`#118的建议<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/118>`_
+> *pddl树消息：执行一些小的清理。
+> *pddl树消息：在plansys2_core/Types.hpp中为单参数构造函数使用显式说明符。
+> *pddl树消息：尽可能用较短的版本替换用户访问函数调用。
+> *pddl树消息：向问题专家客户端添加谓词用户访问函数。
+> *pddl树消息：向问题专家客户端添加谓词用户访问函数。
+> *pddl树消息：应用天幕不合理。
+> *pddl树消息：正在更新addInstance和removeInstance调用以使用辅助类。
+> *pddl树消息：将更改还原为日志语句严重性。
+> *pddl树消息：删除几个不必要的includes。
+> *pddl树消息：合并master并解决冲突。
+> *操作超时清除：重命名测试行为树。
+> *使用自定义行为树启用操作超时。
+> *pddl树消息：合并上游主机并解决冲突。
+> *pddl树消息：使用ROS消息定义pddl构造树。
+> *将操作执行状态（随着颜色的变化）添加到计划点图中。
+> 将图例添加到计划点图，为点图图例添加节点参数，并将计划图打印到终端。
+> *固定试验和过梁
+> *短绒
+> *可配置动作BT
+> *可配置BT操作
+> *由于缺少计划而降低日志消息的严重性并不一定是错误。
+> *减少调试输出
+> *Plansys2_tests包
+> *正在为getOrderedSubGoals添加单元测试。
+> *将GetOrderedSubGoals服务添加到Executor，允许Executor客户端获取当前计划完成子目标的顺序。
+> *更新版本
+> *撰稿人：Alexander Xydes、Francisco Martín Rico、Greg Kogut、Josh Zapf
+> 1.0.9（2021-03-15）
+> *在测试中禁用升压
+> *撰稿人：Francisco Martín Rico
+> 1.0.8（2021-03-12）
+> *更改默认ZMQ端口
+> *正在删除空白。
+> *简化的逻辑。
+> *更新FutureReturnCode的API
+> *处理操作失败的边缘情况，并防止在操作完成时覆盖完成百分比。
+> *将生成的计划发布为字符串主题上的点图。
+> *修复BT创建；并行deps操作
+> *固定反馈控制
+> *动作执行重构
+> *将Utils文件移动到plansys2_problem_expert，因为所有函数都在检查问题中的信息或修改问题。
+> *utils错误：修复plansys2_executor/utils.cpp中evaluate函数OR情况下的错误。
+> *使zmq错误消息更通用，以反映引发BT:：LogicError的原因有多种。
+> *添加对plansys2_executor/ExecutorNode的支持，以可视化Groot中的行为树。
+> *正在将发布者on_lactivate调用移动到ExecutorNode:：on_lactivated回调。
+> *添加对数字条件和效果的支持。
+> *监控信息
+> *删除不可更改的退货
+> *在终端中添加演员检查器
+> *改进BT行动
+> *修复重复节点
+> *一种新的图形创建算法
+> *调试
+> *添加了否定谓词支持
+> *命名空间操作（_hub）
+> *撰稿人：Alexander Xydes、Fabrice Larribe、Francisco Martin Rico、Greg Kogut、Josh Zapf
+> 1.0.7（2021-01-04）
+> *建立明确的依赖关系
+> *撰稿人：Francisco Martín Rico
+> 1.0.6（2020-12-29）
+> *禁用boost功能
+> *撰稿人：Francisco Martín Rico
+> 1.0.5（2020-12-28）
+> *迁移到c++17
+> *撰稿人：Francisco Martín Rico
+> 1.0.4（2020-12-24）
+> 1.0.3（2020-12-23）
+> 1.0.2（2020-12-23）
+> *将解算器规划为插件
+> *撰稿人：Fabrice Larribe，Francisco Martin Rico，f269858
+> 1.0.1（2020-07-19）
+> 1.0.0（2020-07-19）
+> *Foxy初始版本
+> *增压：可选
+> *支持BT行动
+> *撰稿人：弗朗西斯科·马丁·里科
+> 0.0.8（2020-07-18）
+> *添加BT支持
+> *撰稿人：弗朗西斯科·马丁·里科
+> 0.0.7（2020-03-26）
+> *ActionExecutiorClient为cascade_lifecycle
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *撰稿人：弗朗西斯科·马丁·里科
+> 0.0.6（2020-03-23）
+> *在单独的命名空间中运行。单色节
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *撰稿人：弗朗西斯科·马丁·里科
+> 0.0.5（2020-01-12）
+> 0.0.4（2020-01-09）
+> *添加缺少的操作依赖项
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *撰稿人：Francisco Martín Rico
+> 0.0.3（2020-01-09）
+> *添加popf依赖项
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *撰稿人：Francisco Martín Rico
+> 0.0.2（2020-01-08）
+> *合并拉取请求`#16<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/16>`_来自IntelligentRoboticsLabs/pddl_parser_rename
+> 重命名pddl_parser
+> *重命名pddl_parser
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *合并拉取请求`#15<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/15>`_来自智能机器人实验室/example_rename
+> 重命名示例。超时中的小错误
+> *过梁
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *重命名示例。超时中的小错误
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *合并拉取请求`#12<https://github.com/IntelligentRoboticsLabs/ros2_planning_system/issues/12>`_来自智能机器人实验室/actions_composition
+> 动态定义速率
+> *动态定义速率
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *Packages.xml描述
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *添加文档
+> 签字人：弗朗西斯科·马丁·里科<fmartin@gsyc.urjc.es>
+> *设置CI
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *设置CI
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *设置CI
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *设置CI
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *操作客户端的onActivate和onFinished方法
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *第一个功能版本完成
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *独立执行操作。实例
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *更改为下半部分
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *执行器初始版本
+> 签字人：弗朗西斯科·马丁·里科<fmrico@gmail.com>
+> *撰稿人：弗朗西斯科·马丁·里科

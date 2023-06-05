@@ -27,13 +27,41 @@
 
 namespace plansys2 {
 
+/**
+ * @brief ApplyAtEndEffect类是继承自BT::ActionNodeBase的一个动作节点，用于在行为树中执行某些操作。
+ * @param xml_tag_name 该节点在XML文件中的标签名
+ * @param conf 行为树节点的配置
+ * @details 1. 构造函数，初始化ApplyAtEndEffect对象；
+ *          2. halt()函数，空实现，用于停止节点的执行；
+ *          3. tick()函数，重写BT::ActionNodeBase的虚函数，用于执行节点的操作；
+ *          4. providedPorts()函数，返回BT::PortsList类型的端口列表，用于与其他节点进行数据交互；
+ *          5. action_map_成员变量，存储ActionExecutionInfo对象的共享指针；
+ *          6. problem_client_成员变量，plansys2::ProblemExpertClient类型的共享指针。
+ */
 class ApplyAtEndEffect : public BT::ActionNodeBase {
 public:
+  /**
+   * @brief 构造函数
+   * @param xml_tag_name 该节点在XML文件中的标签名
+   * @param conf 行为树节点的配置
+   */
   ApplyAtEndEffect(const std::string& xml_tag_name, const BT::NodeConfiguration& conf);
 
+  /**
+   * @brief 停止节点的执行
+   */
   void halt() {}
+
+  /**
+   * @brief 执行节点的操作
+   * @return BT::NodeStatus 节点的状态
+   */
   BT::NodeStatus tick() override;
 
+  /**
+   * @brief 返回端口列表
+   * @return BT::PortsList 端口列表
+   */
   static BT::PortsList providedPorts() {
     return BT::PortsList({
         BT::InputPort<std::string>("action", "Action whose at end reqs must stop"),
@@ -41,8 +69,8 @@ public:
   }
 
 private:
-  std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map_;
-  std::shared_ptr<plansys2::ProblemExpertClient> problem_client_;
+  std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map_; // 存储ActionExecutionInfo对象的共享指针
+  std::shared_ptr<plansys2::ProblemExpertClient> problem_client_; // plansys2::ProblemExpertClient类型的共享指针
 };
 
 }  // namespace plansys2

@@ -17,13 +17,26 @@
 #include "plansys2_executor/ExecutorNode.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+/**
+ * @brief ros2_planning_system 组件的主函数
+ * @param argc 命令行参数个数
+ * @param argv 命令行参数列表
+ * @details
+ * 1. 初始化 ROS 节点
+ * 2. 创建 plansys2::ExecutorNode 类型的智能指针 node，并将其初始化为 ExecutorNode 的实例
+ * 3. 运行 ROS 节点，直到节点被关闭
+ * 4. 关闭 ROS 节点
+ * 5. 返回 0
+ */
 int main(int argc, char** argv) {
+  // 初始化 ROS 节点
   rclcpp::init(argc, argv);
+  // 创建 plansys2::ExecutorNode 类型的智能指针 node，并将其初始化为 ExecutorNode 的实例
   auto node = std::make_shared<plansys2::ExecutorNode>();
-
+  // 运行 ROS 节点，直到节点被关闭
   rclcpp::spin(node->get_node_base_interface());
-
+  // 关闭 ROS 节点
   rclcpp::shutdown();
-
+  // 返回 0
   return 0;
 }

@@ -25,13 +25,25 @@
 
 namespace plansys2 {
 
+/**
+ * @brief WaitAction类是BT::ActionNodeBase的派生类，用于等待执行某个动作。
+ * @details WaitAction类提供了构造函数、halt()和tick()方法，以及providedPorts()静态方法。
+ *
+ * 参数列表：
+ * - xml_tag_name: 表示XML标签名称的字符串常量引用。
+ * - conf: BT::NodeConfiguration类型的节点配置对象。
+ */
 class WaitAction : public BT::ActionNodeBase {
 public:
   WaitAction(const std::string& xml_tag_name, const BT::NodeConfiguration& conf);
 
+  // 停止节点的执行
   void halt() {}
+
+  // 执行节点的逻辑
   BT::NodeStatus tick() override;
 
+  // 静态方法，返回提供的端口列表
   static BT::PortsList providedPorts() {
     return BT::PortsList({
         BT::InputPort<std::string>("action", "Action to be executed"),
@@ -39,6 +51,7 @@ public:
   }
 
 private:
+  // 存储动作执行信息的map指针
   std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map_;
 };
 

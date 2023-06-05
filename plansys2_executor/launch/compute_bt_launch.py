@@ -30,7 +30,20 @@ from launch_ros.actions import (
 )
 from launch_ros.substitutions import ExecutableInPackage
 
-
+# /**
+#  * @brief 生成launch文件的函数
+#  * @details 根据传入的参数生成对应的launch文件，包括启动Groot、rqt_dotgraph和执行compute_bt等功能。
+#  * @param use_groot 是否启动Groot
+#  * @param use_rqt_dotgraph 是否启动rqt_dotgraph
+#  * @param namespace 命名空间
+#  * @param action_bt_file 行为树文件路径
+#  * @param start_action_bt_file 开始行为树文件路径
+#  * @param end_action_bt_file 结束行为树文件路径
+#  * @param bt_builder_plugin 行为树构建插件
+#  * @param domain PDDL领域文件路径
+#  * @param problem PDDL问题文件路径
+#  * @return 返回一个LaunchDescription对象
+#  */
 def generate_launch_description():
     use_groot = LaunchConfiguration('use_groot')
     use_rqt_dotgraph = LaunchConfiguration('use_rqt_dotgraph')
@@ -43,6 +56,7 @@ def generate_launch_description():
     domain = LaunchConfiguration('domain')
     problem = LaunchConfiguration('problem')
 
+    #     // 声明各个参数
     declare_use_groot_cmd = DeclareLaunchArgument(
         'use_groot',
         default_value='False',
@@ -102,6 +116,7 @@ def generate_launch_description():
     )
 
     # Specify the actions
+    #     // 启动Groot
     start_groot_cmd = ExecuteProcess(
         condition=IfCondition(use_groot),
         cmd=[
@@ -111,6 +126,7 @@ def generate_launch_description():
         ],
     )
 
+    #     // 启动rqt_dotgraph
     start_plan_viewer_cmd = Node(
         package='rqt_dotgraph',
         executable='rqt_dotgraph',
@@ -131,6 +147,7 @@ def generate_launch_description():
         arguments=['--ros-args', '--log-level', 'WARN'],
     )
 
+    #     // 执行compute_bt
     compute_bt_cmd = Node(package='plansys2_executor',
                           executable='compute_bt',
                           name='compute_bt',
@@ -166,6 +183,7 @@ def generate_launch_description():
     ])
 
     # Create the launch description and populate
+    #     // 创建LaunchDescription对象并添加各个参数和执行的动作
     ld = LaunchDescription()
 
     ld.add_action(declare_use_groot_cmd)

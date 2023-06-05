@@ -21,6 +21,13 @@
 
 namespace plansys2 {
 
+/**
+ * @brief CheckAtEndReq类的构造函数，用于初始化成员变量action_map_和problem_client_
+ * @param xml_tag_name 节点名称
+ * @param conf BT::NodeConfiguration类型的配置信息
+ * @details 1. 获取blackboard中的action_map指针并赋值给action_map_；
+ *          2. 获取blackboard中的problem_client指针并赋值给problem_client_。
+ */
 CheckAtEndReq::CheckAtEndReq(const std::string& xml_tag_name, const BT::NodeConfiguration& conf)
     : ActionNodeBase(xml_tag_name, conf) {
   action_map_ =
@@ -31,6 +38,16 @@ CheckAtEndReq::CheckAtEndReq(const std::string& xml_tag_name, const BT::NodeConf
       config().blackboard->get<std::shared_ptr<plansys2::ProblemExpertClient>>("problem_client");
 }
 
+/**
+ * @brief CheckAtEndReq类的tick函数，用于检查当前动作是否满足结束要求
+ * @return BT::NodeStatus 枚举类型，返回SUCCESS表示满足结束要求，返回FAILURE表示不满足结束要求
+ * @details 1. 获取输入参数action；
+ *          2. 获取blackboard中的node指针；
+ *          3. 获取当前动作的结束要求reqs；
+ *          4. 调用check函数检查当前动作是否满足结束要求：
+ *              a. 如果不满足，则将执行错误信息赋值给execution_error_info，并返回FAILURE；
+ *              b. 如果满足，则返回SUCCESS。
+ */
 BT::NodeStatus CheckAtEndReq::tick() {
   std::string action;
   getInput("action", action);

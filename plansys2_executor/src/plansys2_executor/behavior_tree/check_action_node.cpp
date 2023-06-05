@@ -20,6 +20,12 @@
 
 namespace plansys2 {
 
+/**
+ * @brief CheckAction类的构造函数，继承自ActionNodeBase类
+ * @param xml_tag_name 该节点在XML文件中的标签名
+ * @param conf 行为树节点配置信息
+ * @details 初始化CheckAction对象，并获取"action_map"参数的值
+ */
 CheckAction::CheckAction(const std::string& xml_tag_name, const BT::NodeConfiguration& conf)
     : ActionNodeBase(xml_tag_name, conf) {
   action_map_ =
@@ -27,6 +33,12 @@ CheckAction::CheckAction(const std::string& xml_tag_name, const BT::NodeConfigur
           "action_map");
 }
 
+/**
+ * @brief CheckAction类的tick函数，重载自BT::coro::AsyncActionNode类
+ * @details 获取输入参数"action"的值，判断是否存在于action_map_中，
+ * 如果存在且执行器已经完成任务并且开始和结束效果都已应用，则返回SUCCESS；
+ * 否则返回RUNNING。
+ */
 BT::NodeStatus CheckAction::tick() {
   std::string action;
   getInput("action", action);

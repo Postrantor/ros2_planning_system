@@ -20,17 +20,25 @@
 
 using namespace std::chrono_literals;
 
+/**
+ * @brief ROS2规划系统中执行BTAction的主函数
+ * @param argc 命令行参数个数
+ * @param argv 命令行参数列表
+ * @details
+ * 该函数初始化ROS2节点，创建BTAction对象并设置执行周期，触发BTAction的配置过渡，运行ROS2节点，最后关闭ROS2节点并返回程序退出状态码。
+ */
 int main(int argc, char** argv) {
-  rclcpp::init(argc, argv);
+  rclcpp::init(argc, argv);  // 初始化ROS2节点
 
   auto action_node = std::make_shared<plansys2::BTAction>(
-      "default",
-      200ms  // ToDo(fmrico): This should be specified by a parameter
+      "default",  // BTAction的名称
+      200ms       // 执行BTAction的周期，单位为毫秒
   );
 
-  action_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
-  rclcpp::spin(action_node->get_node_base_interface());
-  rclcpp::shutdown();
+  action_node->trigger_transition(
+      lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);  // 触发BTAction的配置过渡
+  rclcpp::spin(action_node->get_node_base_interface());        // 运行ROS2节点
+  rclcpp::shutdown();                                          // 关闭ROS2节点
 
-  return 0;
+  return 0;                                                    // 返回程序退出状态码
 }

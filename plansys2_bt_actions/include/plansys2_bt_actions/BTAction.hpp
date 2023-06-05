@@ -34,26 +34,70 @@
 
 namespace plansys2 {
 
+/**
+ * @brief BTAction类是plansys2::ActionExecutorClient的子类，用于执行行为树相关操作
+ * @param action 行为名称
+ * @param rate 执行频率
+ * @details
+ * 该类定义了BTAction的各种成员函数和变量，包括获取行为名称、获取行为树文件、配置、清理、激活、去激活等操作。
+ */
 class BTAction : public plansys2::ActionExecutorClient {
 public:
+  /**
+   * @brief 构造函数
+   * @param action 行为名称
+   * @param rate 执行频率
+   */
   explicit BTAction(const std::string& action, const std::chrono::nanoseconds& rate);
 
+  /**
+   * @brief 获取行为名称
+   * @return 返回行为名称
+   */
   const std::string& getActionName() const { return action_; }
+
+  /**
+   * @brief 获取行为树文件
+   * @return 返回行为树文件
+   */
   const std::string& getBTFile() const { return bt_xml_file_; }
 
 protected:
+  /**
+   * @brief 配置函数
+   * @param previous_state 前一个状态
+   * @return 返回状态
+   */
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_configure(
       const rclcpp_lifecycle::State& previous_state);
 
+  /**
+   * @brief 清理函数
+   * @param previous_state 前一个状态
+   * @return 返回状态
+   */
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_cleanup(
       const rclcpp_lifecycle::State& previous_state);
 
+  /**
+   * @brief 激活函数
+   * @param previous_state 前一个状态
+   * @return 返回状态
+   */
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_activate(
       const rclcpp_lifecycle::State& previous_state);
 
+  /**
+   * @brief 去激活函数
+   * @param previous_state 前一个状态
+   * @return 返回状态
+   */
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_deactivate(
       const rclcpp_lifecycle::State& previous_state);
 
+  /**
+   * @brief 执行函数
+   */
   void do_work();
 
   BT::BehaviorTreeFactory factory_;
@@ -61,8 +105,8 @@ protected:
 private:
   BT::Tree tree_;
   BT::Blackboard::Ptr blackboard_;
-  std::string action_;
-  std::string bt_xml_file_;
+  std::string action_;       // 行为名称
+  std::string bt_xml_file_;  // 行为树文件
   std::vector<std::string> plugin_list_;
   bool finished_;
   std::unique_ptr<BT::PublisherZMQ> publisher_zmq_;

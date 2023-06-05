@@ -20,6 +20,12 @@
 
 namespace plansys2 {
 
+/**
+ * @brief ApplyAtEndEffect类的构造函数
+ * @param xml_tag_name 用于创建节点的XML标签名称
+ * @param conf 表示节点的配置信息
+ * @details 从黑板中获取action_map和problem_client指针
+ */
 ApplyAtEndEffect::ApplyAtEndEffect(
     const std::string& xml_tag_name, const BT::NodeConfiguration& conf)
     : ActionNodeBase(xml_tag_name, conf) {
@@ -31,6 +37,12 @@ ApplyAtEndEffect::ApplyAtEndEffect(
       config().blackboard->get<std::shared_ptr<plansys2::ProblemExpertClient>>("problem_client");
 }
 
+/**
+ * @brief ApplyAtEndEffect类的tick函数
+ * @details
+ * 获取action字符串，然后获取对应的effect。如果at_end_effects_applied为false，则将其设置为true并应用effect。
+ * @return BT::NodeStatus::SUCCESS
+ */
 BT::NodeStatus ApplyAtEndEffect::tick() {
   std::string action;
   getInput("action", action);

@@ -20,6 +20,16 @@
 
 namespace plansys2 {
 
+/**
+ * @brief ApplyAtStartEffect 类的构造函数，用于初始化 ActionNodeBase 的 xml_tag_name 和 conf
+ * 参数，并将 action_map_ 和 problem_client_ 初始化为指向 blackboard 中对应变量的 shared_ptr。
+ * @param xml_tag_name 节点名称
+ * @param conf 行为树节点配置
+ * @details ApplyAtStartEffect 继承自 ActionNodeBase，用于在行为树中执行某个动作前，先执行该动作的
+ * at_start_effects。at_start_effects 是 plansys2
+ * 中一个概念，表示某个动作开始时需要执行的效果。action_map_ 保存了所有动作的信息，problem_client_
+ * 用于与 plansys2 的问题专家服务进行通信。
+ */
 ApplyAtStartEffect::ApplyAtStartEffect(
     const std::string& xml_tag_name, const BT::NodeConfiguration& conf)
     : ActionNodeBase(xml_tag_name, conf) {
@@ -31,6 +41,12 @@ ApplyAtStartEffect::ApplyAtStartEffect(
       config().blackboard->get<std::shared_ptr<plansys2::ProblemExpertClient>>("problem_client");
 }
 
+/**
+ * @brief ApplyAtStartEffect 类的 tick 函数，用于执行 at_start_effects。
+ * @return BT::NodeStatus::SUCCESS 执行成功
+ * @details 如果当前动作的 at_start_effects 还没有被执行过，则执行该动作的
+ * at_start_effects，并将该动作的 at_start_effects_applied 标记设为 true。
+ */
 BT::NodeStatus ApplyAtStartEffect::tick() {
   std::string action;
   getInput("action", action);
