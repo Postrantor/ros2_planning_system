@@ -74,8 +74,6 @@ public:
    * @param action_name 动作名称
    * @return bool 是否成功创建动作客户端
    * @details 使用ROS节点创建BT动作的客户端，等待服务器响应并返回是否成功等待
-   * 参数列表：
-   * - action_name：动作名称
    */
   bool createActionClient(const std::string& action_name) {
     // Now that we have the ROS node to use, create the action client for this BT action
@@ -104,8 +102,6 @@ public:
    * @details
    * 任何接受参数的BtActionNode子类都必须提供providedPorts方法，并在其中调用providedBasicPorts。
    * providedBasicPorts函数提供了基本的输入端口信息，包括服务器名称和等待服务器响应的时间。
-   * 参数列表：
-   * - addition：需要添加的端口信息
    */
   static BT::PortsList providedBasicPorts(BT::PortsList addition) {
     BT::PortsList basic = {

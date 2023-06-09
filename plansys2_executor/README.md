@@ -10,7 +10,7 @@ The Executor module is responsible for requesting a plan to the Planner, and car
 
 The main class of Executor is [`plansys2::ExecutorNode`](include/include/plansys2_executor/ExcutorNode.hpp), which is instantiated from [`executor_node.cpp`](src/executor_node.cpp).
 
-> 主要的执行器类是`plansys2::ExecutorNode`(参见 include/include/plansys2_executor/ExcutorNode.hpp)，它是从`executor_node.cpp`(参见 src/executor_node.cpp)实例化的。
+> 主要的执行器类是`plansys2::ExecutorNode`，它是从`executor_node.cpp`实例化的。
 
 The executions of plans are carried out using ROS2 actions, in particular, [`plansys2_msgs::action::ExecutePlan`](../plansys2_msgs/action/ExecutePlan.action). Take note that the goal must be already in the Domain Expert.
 

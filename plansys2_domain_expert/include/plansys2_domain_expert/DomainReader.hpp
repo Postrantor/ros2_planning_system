@@ -18,11 +18,9 @@
 #include <string>
 #include <vector>
 
-namespace plansys2
-{
+namespace plansys2 {
 
-struct Domain
-{
+struct Domain {
   std::string name;
   std::string requirements;
   std::string types;
@@ -32,25 +30,24 @@ struct Domain
   std::vector<std::string> actions;
 };
 
-class DomainReader
-{
+class DomainReader {
 public:
   DomainReader();
 
-  void add_domain(const std::string & domain);
+  void add_domain(const std::string& domain);
   std::string get_joint_domain() const;
-  std::vector<Domain> get_domains() {return domains_;}
+  std::vector<Domain> get_domains() { return domains_; }
 
 protected:
-  int get_end_block(const std::string & domain, std::size_t init_pos);
+  int get_end_block(const std::string& domain, std::size_t init_pos);
 
-  std::string get_name(std::string & domain);
-  std::string get_requirements(std::string & domain);
-  std::string get_types(const std::string & domain);
-  std::string get_constants(const std::string & domain);
-  std::string get_predicates(const std::string & domain);
-  std::string get_functions(const std::string & domain);
-  std::vector<std::string> get_actions(const std::string & domain);
+  std::string get_name(std::string& domain);
+  std::string get_requirements(std::string& domain);
+  std::string get_types(const std::string& domain);
+  std::string get_constants(const std::string& domain);
+  std::string get_predicates(const std::string& domain);
+  std::string get_functions(const std::string& domain);
+  std::vector<std::string> get_actions(const std::string& domain);
 
 private:
   std::vector<Domain> domains_;

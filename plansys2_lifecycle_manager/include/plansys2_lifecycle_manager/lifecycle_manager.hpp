@@ -60,7 +60,6 @@ std::future_status wait_for_result(FutureT& future, WaitTimeT time_to_wait) {
 
 /**
  * @brief 生命周期服务客户端类，继承自 rclcpp::Node 类。
- *
  */
 class LifecycleServiceClient : public rclcpp::Node {
 public:
@@ -74,7 +73,6 @@ public:
 
   /**
    * @brief 初始化生命周期服务客户端。
-   *
    */
   void init();
 

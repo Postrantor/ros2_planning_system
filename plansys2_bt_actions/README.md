@@ -6,7 +6,7 @@ tip: translate by openai@2023-06-03 00:49:41
 
 The purpose of this package is to provide built-in support for `plansys2` actions which use [Behavior Trees](https://github.com/BehaviorTree/BehaviorTree.CPP) (BTs) for their implementation. A drop-in replacement for a vanilla `plansys2::ActionExecutorClient` is provided in the form of a ROS2 node, which will execute an arbitrary BT passed in as a ROS parameter. A BehaviorTree.CPP node, `plansys2::BtActionNode`, is also included to provide a convenient wrapper around a ROS2 action client (a common application for BT nodes).
 
-> 本软件包的目的是为使用[行为树] (BTs)实现的`plansys2`动作提供内置支持。以 ROS2 节点的形式提供了一个可替换的香草`plansys2::ActionExecutorClient`，它将执行作为 ROS 参数传入的任意 BT。还包括一个 BehaviorTree.CPP 节点`plansys2::BtActionNode`，为 ROS2 动作客户端(BT 节点的常见应用)提供了方便的封装。
+> 本软件包的目的是为使用[行为树] (BTs)实现的`plansys2`动作提供内置支持。以 ROS2 节点的形式提供了一个可替换的香草`plansys2::ActionExecutorClient`，它将执行作为 ROS 参数传入的任意 BT。还**包括一个 BehaviorTree.CPP 节点**`plansys2::BtActionNode`，为 ROS2 动作客户端(BT 节点的常见应用)提供了方便的封装。
 
 ### ROS2 node for implementing `plansys2` actions
 

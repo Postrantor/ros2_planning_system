@@ -15,38 +15,34 @@
 #ifndef PLANSYS2_DOMAIN_EXPERT__DOMAINEXPERT_HPP_
 #define PLANSYS2_DOMAIN_EXPERT__DOMAINEXPERT_HPP_
 
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
-#include <memory>
-
-#include "plansys2_msgs/msg/action.hpp"
-#include "plansys2_msgs/msg/durative_action.hpp"
-#include "plansys2_msgs/msg/node.hpp"
-
-#include "plansys2_pddl_parser/Domain.h"
 
 #include "plansys2_domain_expert/DomainExpertInterface.hpp"
 #include "plansys2_domain_expert/DomainReader.hpp"
+#include "plansys2_msgs/msg/action.hpp"
+#include "plansys2_msgs/msg/durative_action.hpp"
+#include "plansys2_msgs/msg/node.hpp"
+#include "plansys2_pddl_parser/Domain.h"
 
-namespace plansys2
-{
+namespace plansys2 {
 
 /// DomainExpert is in charge of managing the internal structure of a domain.
-class DomainExpert : public DomainExpertInterface
-{
+class DomainExpert : public DomainExpertInterface {
 public:
   /// Create a new DomainExpert with the content of a domain.
   /**
    * \param[in] node_name The content of a PDDL domain.
    */
-  explicit DomainExpert(const std::string & domain);
+  explicit DomainExpert(const std::string& domain);
 
   /// Extend the content of aDomainExpert with the content of another domain.
   /**
    * \param[in] node_name The content of a PDDL domain.
    */
-  void extendDomain(const std::string & domain);
+  void extendDomain(const std::string& domain);
 
   /// Get the domain name.
   /**
@@ -65,7 +61,7 @@ public:
    * \param[in] predicate The name of the type.
    * \return A list of constants names for the passed type
    */
-  std::vector<std::string> getConstants(const std::string & type);
+  std::vector<std::string> getConstants(const std::string& type);
 
   /// Get the predicates existing in the domain.
   /**
@@ -79,7 +75,7 @@ public:
    * \return A Predicate object containing the predicate name and its parameters (name and type).
    *    If the predicate does not exist, the value returned has not value.
    */
-  std::optional<plansys2::Predicate> getPredicate(const std::string & predicate);
+  std::optional<plansys2::Predicate> getPredicate(const std::string& predicate);
 
   /// Get the functions existing in the domain.
   /**
@@ -93,7 +89,7 @@ public:
    * \return A Function object containing the function name and its parameters (name and type).
    *    If the function does not exist, the value returned has not value.
    */
-  std::optional<plansys2::Function> getFunction(const std::string & function);
+  std::optional<plansys2::Function> getFunction(const std::string& function);
 
   /// Get the regular actions existing in the domain.
   /**
@@ -108,8 +104,7 @@ public:
    *    If the action does not exist, the value returned has not value.
    */
   plansys2_msgs::msg::Action::SharedPtr getAction(
-    const std::string & action,
-    const std::vector<std::string> & params = {});
+      const std::string& action, const std::vector<std::string>& params = {});
 
   /// Get the temporal actions existing in the domain.
   /**
@@ -124,8 +119,7 @@ public:
    *    effects. If the action does not exist, the value returned has not value.
    */
   plansys2_msgs::msg::DurativeAction::SharedPtr getDurativeAction(
-    const std::string & action,
-    const std::vector<std::string> & params = {});
+      const std::string& action, const std::vector<std::string>& params = {});
 
   /// Get the current domain, ready to be saved to file, or to initialize another domain.
   /**
@@ -138,7 +132,7 @@ public:
    * \param[in] domain The name of the domain.
    * \return true if the domain exists.
    */
-  bool existDomain(const std::string & domain_name);
+  bool existDomain(const std::string& domain_name);
 
 private:
   std::shared_ptr<parser::pddl::Domain> domain_;

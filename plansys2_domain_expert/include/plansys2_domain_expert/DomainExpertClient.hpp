@@ -15,32 +15,28 @@
 #ifndef PLANSYS2_DOMAIN_EXPERT__DOMAINEXPERTCLIENT_HPP_
 #define PLANSYS2_DOMAIN_EXPERT__DOMAINEXPERTCLIENT_HPP_
 
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include "plansys2_core/Types.hpp"
 #include "plansys2_domain_expert/DomainExpertInterface.hpp"
-
 #include "plansys2_msgs/msg/action.hpp"
 #include "plansys2_msgs/msg/durative_action.hpp"
 #include "plansys2_msgs/msg/node.hpp"
-
 #include "plansys2_msgs/srv/get_domain.hpp"
+#include "plansys2_msgs/srv/get_domain_action_details.hpp"
+#include "plansys2_msgs/srv/get_domain_actions.hpp"
+#include "plansys2_msgs/srv/get_domain_constants.hpp"
+#include "plansys2_msgs/srv/get_domain_durative_action_details.hpp"
 #include "plansys2_msgs/srv/get_domain_name.hpp"
 #include "plansys2_msgs/srv/get_domain_types.hpp"
-#include "plansys2_msgs/srv/get_domain_constants.hpp"
-#include "plansys2_msgs/srv/get_domain_actions.hpp"
-#include "plansys2_msgs/srv/get_domain_action_details.hpp"
-#include "plansys2_msgs/srv/get_domain_durative_action_details.hpp"
 #include "plansys2_msgs/srv/get_node_details.hpp"
 #include "plansys2_msgs/srv/get_states.hpp"
-
 #include "rclcpp/rclcpp.hpp"
 
-namespace plansys2
-{
+namespace plansys2 {
 
 /// DomainExpertClient requests changes or gets information to/from the DomainExpertNode
 /**
@@ -48,8 +44,7 @@ namespace plansys2
  * DomainExpertNode, or to get information from it. It presents the same interface
  * of the DomainExpert, and hides the complexity of using services.
  */
-class DomainExpertClient : public DomainExpertInterface
-{
+class DomainExpertClient : public DomainExpertInterface {
 public:
   /// Create a new DomainExpertClient.
   DomainExpertClient();
@@ -71,7 +66,7 @@ public:
    * \param[in] predicate The name of the type.
    * \return A list of constants names for the passed type
    */
-  std::vector<std::string> getConstants(const std::string & type);
+  std::vector<std::string> getConstants(const std::string& type);
 
   /// Get the predicates existing in the domain.
   /**
@@ -85,7 +80,7 @@ public:
    * \return A Predicate object containing the predicate name and its parameters (name and type).
    *    If the predicate does not exist, the value returned has not value.
    */
-  std::optional<plansys2::Predicate> getPredicate(const std::string & predicate);
+  std::optional<plansys2::Predicate> getPredicate(const std::string& predicate);
 
   /// Get the functions existing in the domain.
   /**
@@ -99,7 +94,7 @@ public:
    * \return A Function object containing the function name and its parameters (name and type).
    *    If the function does not exist, the value returned has not value.
    */
-  std::optional<plansys2::Function> getFunction(const std::string & function);
+  std::optional<plansys2::Function> getFunction(const std::string& function);
 
   /// Get the regular actions existing in the domain.
   /**
@@ -114,8 +109,7 @@ public:
    *    If the action does not exist, the value returned has not value.
    */
   plansys2_msgs::msg::Action::SharedPtr getAction(
-    const std::string & action,
-    const std::vector<std::string> & params = {});
+      const std::string& action, const std::vector<std::string>& params = {});
 
   /// Get the temporal actions existing in the domain.
   /**
@@ -130,8 +124,7 @@ public:
    *    effects. If the action does not exist, the value returned has not value.
    */
   plansys2_msgs::msg::DurativeAction::SharedPtr getDurativeAction(
-    const std::string & action,
-    const std::vector<std::string> & params = {});
+      const std::string& action, const std::vector<std::string>& params = {});
 
   /// Get the current domain, ready to be saved to file, or to initialize another domain.
   /**
@@ -154,7 +147,7 @@ private:
   rclcpp::Client<plansys2_msgs::srv::GetNodeDetails>::SharedPtr get_function_details_client_;
   rclcpp::Client<plansys2_msgs::srv::GetDomainActionDetails>::SharedPtr get_action_details_client_;
   rclcpp::Client<plansys2_msgs::srv::GetDomainDurativeActionDetails>::SharedPtr
-    get_durative_action_details_client_;
+      get_durative_action_details_client_;
 };
 
 }  // namespace plansys2
