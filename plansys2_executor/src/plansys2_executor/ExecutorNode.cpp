@@ -118,10 +118,10 @@ ExecutorNode::ExecutorNode()
  * @return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
  * 回调函数返回值类型
  * @details
- * 1. 获取并设置默认行为树文件路径
- * 2. 加载行为树文件
- * 3. 创建发布器和客户端对象
- * 4. 返回回调函数执行结果
+ *    1. 获取并设置默认行为树文件路径
+ *    2. 加载行为树文件
+ *    3. 创建发布器和客户端对象
+ *    4. 返回回调函数执行结果
  */
 CallbackReturnT ExecutorNode::on_configure(const rclcpp_lifecycle::State& state) {
   RCLCPP_INFO(get_logger(), "[%s] Configuring...", get_name());
@@ -200,9 +200,10 @@ CallbackReturnT ExecutorNode::on_configure(const rclcpp_lifecycle::State& state)
 /**
  * @brief ExecutorNode的on_activate函数，用于激活节点
  * @param state 节点状态
- * @details 1. 输出节点正在激活的信息；2.
- * 调用dotgraph_pub_、execution_info_pub_和executing_plan_pub_的on_activate函数；3.
- * 输出节点已经激活的信息。
+ * @details
+ * 1. 输出节点正在激活的信息；
+ * 2. 调用dotgraph_pub_、execution_info_pub_和executing_plan_pub_的on_activate函数；
+ * 3. 输出节点已经激活的信息。
  * @return CallbackReturnT::SUCCESS
  */
 CallbackReturnT ExecutorNode::on_activate(const rclcpp_lifecycle::State& state) {
@@ -234,8 +235,10 @@ CallbackReturnT ExecutorNode::on_deactivate(const rclcpp_lifecycle::State& state
 /**
  * @brief ExecutorNode的on_cleanup函数，用于清理节点
  * @param state 节点状态
- * @details 1. 输出节点正在清理的信息；2. 重置dotgraph_pub_和executing_plan_pub_；3.
- * 输出节点已经清理的信息。
+ * @details
+ *    1. 输出节点正在清理的信息；
+ *    2. 重置dotgraph_pub_和executing_plan_pub_；
+ *    3. 输出节点已经清理的信息。
  * @return CallbackReturnT::SUCCESS
  */
 CallbackReturnT ExecutorNode::on_cleanup(const rclcpp_lifecycle::State& state) {
@@ -250,8 +253,10 @@ CallbackReturnT ExecutorNode::on_cleanup(const rclcpp_lifecycle::State& state) {
 /**
  * @brief ExecutorNode的on_shutdown函数，用于关闭节点
  * @param state 节点状态
- * @details 1. 输出节点正在关闭的信息；2. 重置dotgraph_pub_和executing_plan_pub_；3.
- * 输出节点已经关闭的信息。
+ * @details
+ *    1. 输出节点正在关闭的信息；
+ *    2. 重置dotgraph_pub_和executing_plan_pub_；
+ *    3. 输出节点已经关闭的信息。
  * @return CallbackReturnT::SUCCESS
  */
 CallbackReturnT ExecutorNode::on_shutdown(const rclcpp_lifecycle::State& state) {
@@ -281,13 +286,14 @@ CallbackReturnT ExecutorNode::on_error(const rclcpp_lifecycle::State& state) {
  * @param request 请求信息
  * @param response 响应信息
  * @details
- * 如果当前存在有序子目标，则将其存储在响应信息中并返回true，否则返回false并提示“无当前计划”。
+ *    如果当前存在有序子目标，则将其存储在响应信息中并返回true，否则返回false并提示“无当前计划”。
  */
 void ExecutorNode::get_ordered_sub_goals_service_callback(
-    const std::shared_ptr<rmw_request_id_t> request_header,  // 请求头部信息
-    const std::shared_ptr<plansys2_msgs::srv::GetOrderedSubGoals::Request> request,  // 请求信息
-    const std::shared_ptr<plansys2_msgs::srv::GetOrderedSubGoals::Response> response) {  // 响应信息
-  if (ordered_sub_goals_.has_value()) {                // 如果当前存在有序子目标
+    const std::shared_ptr<rmw_request_id_t> request_header,
+    const std::shared_ptr<plansys2_msgs::srv::GetOrderedSubGoals::Request> request,
+    const std::shared_ptr<plansys2_msgs::srv::GetOrderedSubGoals::Response> response) {
+  // 如果当前存在有序子目标
+  if (ordered_sub_goals_.has_value()) {
     response->sub_goals = ordered_sub_goals_.value();  // 将有序子目标存储在响应信息中
     response->success = true;                          // 返回true
   } else {
@@ -301,9 +307,11 @@ void ExecutorNode::get_ordered_sub_goals_service_callback(
  * @return 返回一个optional类型的vector，包含有序的子目标
  * @details 如果当前不存在计划，则返回空向量；否则，根据计划和问题信息获取有序的子目标，并返回。
  */
-std::optional<std::vector<plansys2_msgs::msg::Tree>> ExecutorNode::getOrderedSubGoals() {
-  if (!current_plan_.has_value()) {  // 如果当前不存在计划
-    return {};                       // 返回空向量
+std::optional<std::vector<plansys2_msgs::msg::Tree>>  //
+ExecutorNode::getOrderedSubGoals() {
+  // 如果当前不存在计划
+  if (!current_plan_.has_value()) {
+    return {};  // 返回空向量
   }
 
   auto goal = problem_client_->getGoal();                    // 获取问题的目标
@@ -315,9 +323,11 @@ std::optional<std::vector<plansys2_msgs::msg::Tree>> ExecutorNode::getOrderedSub
       parser::pddl::getSubtreeIds(goal);  // 获取目标树中所有子目标的ID
 
   // just in case some goals are already satisfied
-  for (auto it = unordered_subgoals.begin(); it != unordered_subgoals.end();) {  // 遍历所有子目标
-    if (check(goal, local_predicates, local_functions, *it)) {  // 如果该子目标已经被满足
-      plansys2_msgs::msg::Tree new_goal;                        // 创建新的目标树
+  // 遍历所有子目标
+  for (auto it = unordered_subgoals.begin(); it != unordered_subgoals.end();) {
+    // 如果该子目标已经被满足
+    if (check(goal, local_predicates, local_functions, *it)) {
+      plansys2_msgs::msg::Tree new_goal;  // 创建新的目标树
       parser::pddl::fromString(
           new_goal,
           "(and " + parser::pddl::toString(goal, (*it)) + ")");  // 将该子目标添加到新的目标树中
@@ -328,17 +338,19 @@ std::optional<std::vector<plansys2_msgs::msg::Tree>> ExecutorNode::getOrderedSub
     }
   }
 
-  for (const auto& plan_item : current_plan_.value().items) {  // 遍历当前计划中的所有项
+  // 遍历当前计划中的所有项
+  for (const auto& plan_item : current_plan_.value().items) {
     std::shared_ptr<plansys2_msgs::msg::DurativeAction> action =
-        domain_client_->getDurativeAction(                     // 获取该项对应的动作
+        domain_client_->getDurativeAction(  // 获取该项对应的动作
             get_action_name(plan_item.action), get_action_params(plan_item.action));
     apply(action->at_start_effects, local_predicates, local_functions);  // 应用动作的起始效果
     apply(action->at_end_effects, local_predicates, local_functions);  // 应用动作的结束效果
 
-    for (auto it = unordered_subgoals.begin();
-         it != unordered_subgoals.end();) {                       // 遍历未满足的子目标
-      if (check(goal, local_predicates, local_functions, *it)) {  // 如果该子目标已经被满足
-        plansys2_msgs::msg::Tree new_goal;                        // 创建新的目标树
+    // 遍历未满足的子目标
+    for (auto it = unordered_subgoals.begin(); it != unordered_subgoals.end();) {
+      // 如果该子目标已经被满足
+      if (check(goal, local_predicates, local_functions, *it)) {
+        plansys2_msgs::msg::Tree new_goal;  // 创建新的目标树
         parser::pddl::fromString(
             new_goal,
             "(and " + parser::pddl::toString(goal, (*it)) + ")");  // 将该子目标添加到新的目标树中
@@ -409,29 +421,28 @@ rclcpp_action::CancelResponse ExecutorNode::handle_cancel(
  * @brief 执行计划的执行器节点
  * @param goal_handle 目标句柄
  * @details
- * 1. 创建反馈和结果指针；
- * 2. 将 cancel_plan_requested_ 置为 false；
- * 3. 获取当前计划；
- * 4. 如果当前计划不存在，则发布空计划，设置执行失败，并返回；
- * 5. 发布当前计划；
- * 6. 创建动作映射和超时动作映射；
- * 7. 遍历当前计划中的每个计划项，将其添加到动作映射中；
- * 8. 获取有序子目标；
- * 9. 根据 bt_builder_plugin 参数创建行为树构建器实例；
- * 10. 初始化行为树构建器；
- * 11. 创建黑板；
- * 12. 注册行为树节点类型；
- * 13. 获取行为树 xml 树；
- * 14. 发布 dotgraph 消息；
- * 15. 将行为树 xml 写入文件；
- * 16. 从文本创建行为树并返回。
+ *    1. 创建反馈和结果指针；
+ *    2. 将 cancel_plan_requested_ 置为 false；
+ *    3. 获取当前计划；
+ *    4. 如果当前计划不存在，则发布空计划，设置执行失败，并返回；
+ *    5. 发布当前计划；
+ *    6. 创建动作映射和超时动作映射；
+ *    7. 遍历当前计划中的每个计划项，将其添加到动作映射中；
+ *    8. 获取有序子目标；
+ *    9. 根据 bt_builder_plugin 参数创建行为树构建器实例；
+ *    10. 初始化行为树构建器；
+ *    11. 创建黑板；
+ *    12. 注册行为树节点类型；
+ *    13. 获取行为树 xml 树；
+ *    14. 发布 dotgraph 消息；
+ *    15. 将行为树 xml 写入文件；
+ *    16. 从文本创建行为树并返回。
  */
 void ExecutorNode::execute(const std::shared_ptr<GoalHandleExecutePlan> goal_handle) {
   auto feedback = std::make_shared<ExecutePlan::Feedback>();
   auto result = std::make_shared<ExecutePlan::Result>();
 
   cancel_plan_requested_ = false;
-
   current_plan_ = goal_handle->get_goal()->plan;
 
   if (!current_plan_.has_value()) {
@@ -450,10 +461,11 @@ void ExecutorNode::execute(const std::shared_ptr<GoalHandleExecutePlan> goal_han
   auto action_timeout_actions =
       this->get_parameter("action_timeouts.actions").as_string_array();  // 超时动作映射
 
-  for (const auto& plan_item : current_plan_.value().items) {            // 遍历计划项
-    auto index = BTBuilder::to_action_id(plan_item, 3);                  // 获取动作 id
+  // 遍历计划项
+  for (const auto& plan_item : current_plan_.value().items) {
+    auto index = BTBuilder::to_action_id(plan_item, 3);  // 获取动作 id
 
-    (*action_map)[index] = ActionExecutionInfo();                        // 添加到动作映射中
+    (*action_map)[index] = ActionExecutionInfo();        // 添加到动作映射中
     (*action_map)[index].action_executor =
         ActionExecutor::make_shared(plan_item.action, shared_from_this());  // 创建动作执行器
     (*action_map)[index].durative_action_info = domain_client_->getDurativeAction(
@@ -490,20 +502,23 @@ void ExecutorNode::execute(const std::shared_ptr<GoalHandleExecutePlan> goal_han
     RCLCPP_ERROR(get_logger(), "pluginlib error: %s", ex.what());
   }
 
-  if (bt_builder_plugin == "SimpleBTBuilder") {  // 初始化行为树构建器
+  // 初始化行为树构建器
+  if (bt_builder_plugin == "SimpleBTBuilder") {
     bt_builder->initialize(action_bt_xml_);
   } else if (bt_builder_plugin == "STNBTBuilder") {
     auto precision = this->get_parameter("action_time_precision").as_int();
     bt_builder->initialize(start_action_bt_xml_, end_action_bt_xml_, precision);
   }
-  auto blackboard = BT::Blackboard::create();  // 创建黑板
 
+  // 创建黑板
+  auto blackboard = BT::Blackboard::create();
   blackboard->set("action_map", action_map);
   blackboard->set("node", shared_from_this());
   blackboard->set("domain_client", domain_client_);
   blackboard->set("problem_client", problem_client_);
 
-  BT::BehaviorTreeFactory factory;  // 注册行为树节点类型
+  // 注册行为树节点类型
+  BT::BehaviorTreeFactory factory;
   factory.registerNodeType<ExecuteAction>("ExecuteAction");
   factory.registerNodeType<WaitAction>("WaitAction");
   factory.registerNodeType<CheckAction>("CheckAction");
@@ -514,7 +529,8 @@ void ExecutorNode::execute(const std::shared_ptr<GoalHandleExecutePlan> goal_han
   factory.registerNodeType<ApplyAtEndEffect>("ApplyAtEndEffect");
   factory.registerNodeType<CheckTimeout>("CheckTimeout");
 
-  auto bt_xml_tree = bt_builder->get_tree(current_plan_.value());  // 获取行为树 xml 树
+  // 获取行为树 xml 树
+  auto bt_xml_tree = bt_builder->get_tree(current_plan_.value());
   std_msgs::msg::String dotgraph_msg;
   dotgraph_msg.data = bt_builder->get_dotgraph(
       action_map, this->get_parameter("enable_dotgraph_legend").as_bool(),
@@ -526,7 +542,8 @@ void ExecutorNode::execute(const std::shared_ptr<GoalHandleExecutePlan> goal_han
   out << bt_xml_tree;  // 将行为树 xml 写入文件
   out.close();
 
-  auto tree = factory.createTreeFromText(bt_xml_tree, blackboard);  // 从文本创建行为树并返回
+  // 从文本创建行为树并返回
+  auto tree = factory.createTreeFromText(bt_xml_tree, blackboard);
 
 #ifdef ZMQ_FOUND
   unsigned int publisher_port = this->get_parameter("publisher_port").as_int();
@@ -576,47 +593,51 @@ void ExecutorNode::execute(const std::shared_ptr<GoalHandleExecutePlan> goal_han
     feedback->action_execution_status = get_feedback_info(action_map);  // 获取反馈信息
     goal_handle->publish_feedback(feedback);                            // 发布反馈信息
 
+    // 获取行为树的可视化图形，并发布
     dotgraph_msg.data = bt_builder->get_dotgraph(
-        action_map,
-        this->get_parameter("enable_dotgraph_legend").as_bool());  // 获取行为树的可视化图形
-    dotgraph_pub_->publish(dotgraph_msg);  // 发布行为树的可视化图形
+        action_map, this->get_parameter("enable_dotgraph_legend").as_bool());
+    dotgraph_pub_->publish(dotgraph_msg);
 
-    rate.sleep();                          // 控制循环频率
+    rate.sleep();  // 控制循环频率
   }
 
+  // 如果取消了计划，则停止行为树的执行
   if (cancel_plan_requested_) {
-    tree.haltTree();  // 如果取消了计划，则停止行为树的执行
+    tree.haltTree();
   }
 
+  // 如果行为树的状态为 FAILURE，则停止行为树的执行
   if (status == BT::NodeStatus::FAILURE) {
-    tree.haltTree();  // 如果行为树的状态为 FAILURE，则停止行为树的执行
-    RCLCPP_ERROR(get_logger(), "Executor BT finished with FAILURE state");  // 打印错误信息
+    tree.haltTree();
+    RCLCPP_ERROR(get_logger(), "Executor BT finished with FAILURE state");
   }
 
-  dotgraph_msg.data = bt_builder->get_dotgraph(
-      action_map,
-      this->get_parameter("enable_dotgraph_legend").as_bool());  // 获取行为树的可视化图形
-  dotgraph_pub_->publish(dotgraph_msg);                 // 发布行为树的可视化图形
+  // 获取行为树的可视化图形
+  dotgraph_msg.data =
+      bt_builder->get_dotgraph(action_map, this->get_parameter("enable_dotgraph_legend").as_bool());
+  dotgraph_pub_->publish(dotgraph_msg);
 
   result->success = status == BT::NodeStatus::SUCCESS;  // 判断行为树的执行是否成功
   result->action_execution_status = get_feedback_info(action_map);  // 获取反馈信息
 
+  // 遍历所有行动的执行状态
   size_t i = 0;
-  while (i < result->action_execution_status.size() && result->success) {  // 遍历所有行动的执行状态
+  while (i < result->action_execution_status.size() && result->success) {
+    // 如果有一个行动的执行状态不是 SUCCEEDED，则认为执行失败
     if (result->action_execution_status[i].status !=
-        plansys2_msgs::msg::ActionExecutionInfo::SUCCEEDED) {  // 如果有一个行动的执行状态不是
-                                                               // SUCCEEDED，则认为执行失败
+        plansys2_msgs::msg::ActionExecutionInfo::SUCCEEDED) {
       result->success = false;
     }
     i++;
   }
 
-  if (rclcpp::ok()) {                                     // 如果 ROS2 节点正常运行
-    goal_handle->succeed(result);                         // 发送执行结果
+  // 如果 ROS2 节点正常运行，发送执行结果
+  if (rclcpp::ok()) {
+    goal_handle->succeed(result);
     if (result->success) {
-      RCLCPP_INFO(this->get_logger(), "Plan Succeeded");  // 打印执行成功的信息
+      RCLCPP_INFO(this->get_logger(), "Plan Succeeded");
     } else {
-      RCLCPP_INFO(this->get_logger(), "Plan Failed");     // 打印执行失败的信息
+      RCLCPP_INFO(this->get_logger(), "Plan Failed");
     }
   }
 }
@@ -637,7 +658,8 @@ void ExecutorNode::handle_accepted(const std::shared_ptr<GoalHandleExecutePlan> 
  * @return 返回 plansys2_msgs::msg::ActionExecutionInfo 类型的向量
  * @details 遍历动作映射表中的每一个动作，获取其执行状态和相关信息，并将其添加到返回的向量中
  */
-std::vector<plansys2_msgs::msg::ActionExecutionInfo> ExecutorNode::get_feedback_info(
+std::vector<plansys2_msgs::msg::ActionExecutionInfo>  //
+ExecutorNode::get_feedback_info(
     std::shared_ptr<std::map<std::string, ActionExecutionInfo>> action_map) {
   std::vector<plansys2_msgs::msg::ActionExecutionInfo> ret;
 
@@ -693,13 +715,13 @@ std::vector<plansys2_msgs::msg::ActionExecutionInfo> ExecutorNode::get_feedback_
  * @brief 打印执行信息
  * @param exec_info 一个指向存储 ActionExecutionInfo 的 map 的 shared_ptr
  * @details
- * 1. 遍历 exec_info 中的每个 action_info，输出其状态和相关信息
- * 2. 输出每个 action_info 的名称和状态
- * 3. 如果该 action_info 没有持续时间信息，则输出 "With no duration info"
- * 4. 如果该 action_info 的开始效果已应用，则输出 "At start effects applied"，否则输出 "At start
+ *    1. 遍历 exec_info 中的每个 action_info，输出其状态和相关信息
+ *    2. 输出每个 action_info 的名称和状态
+ *    3. 如果该 action_info 没有持续时间信息，则输出 "With no duration info"
+ *    4. 如果该 action_info 的开始效果已应用，则输出 "At start effects applied"，否则输出 "At start
+ *    effects NOT applied"
+ *    5. 如果该 action_info 的结束效果已应用，则输出 "At end effects applied"，否则输出 "At end
  * effects NOT applied"
- * 5. 如果该 action_info 的结束效果已应用，则输出 "At end effects applied"，否则输出 "At end effects
- * NOT applied"
  */
 void ExecutorNode::print_execution_info(
     std::shared_ptr<std::map<std::string, ActionExecutionInfo>> exec_info) {

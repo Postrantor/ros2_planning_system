@@ -32,8 +32,11 @@ using namespace std::chrono_literals;
  * @details 创建发布器和订阅器，用于与其他组件通信；初始化状态、完成度等参数。
  */
 ActionExecutor::ActionExecutor(
-    const std::string& action, rclcpp_lifecycle::LifecycleNode::SharedPtr node)
-    : node_(node), state_(IDLE), completion_(0.0) {
+    const std::string& action,  //
+    rclcpp_lifecycle::LifecycleNode::SharedPtr node)
+    : node_(node),              //
+      state_(IDLE),             //
+      completion_(0.0) {
   // 创建发布器，用于向actions_hub话题发布plansys2_msgs::msg::ActionExecution消息
   action_hub_pub_ = node_->create_publisher<plansys2_msgs::msg::ActionExecution>(
       "actions_hub", rclcpp::QoS(100).reliable());

@@ -51,18 +51,22 @@ std::future_status wait_for_result(FutureT& future, WaitTimeT time_to_wait) {
   do {
     auto now = std::chrono::steady_clock::now();               // 获取当前时间点
     auto time_left = end - now;                                // 计算剩余等待时间
-    if (time_left <= std::chrono::seconds(0)) {  // 如果剩余等待时间小于等于 0 秒，则跳出循环
+    // 如果剩余等待时间小于等于 0 秒，则跳出循环
+    if (time_left <= std::chrono::seconds(0)) {
       break;
     }
-    status = future.wait_for(
-        (time_left < wait_period)
-            ? time_left
-            : wait_period);  // 等待 future 对象的结果，等待时间为剩余等待时间和等待周期中较小的那个
-  } while (rclcpp::ok() &&
-           status != std::future_status::ready);  // 当 ROS2 节点正常运行且未得到结果时继续循环
-  return status;                                  // 返回 future 对象的状态
+    // 等待 future 对象的结果，等待时间为剩余等待时间和等待周期中较小的那个
+    status = future.wait_for((time_left < wait_period) ? time_left : wait_period);
+    // 当 ROS2 节点正常运行且未得到结果时继续循环
+  } while (rclcpp::ok() && status != std::future_status::ready);
+
+  // 返回 future 对象的状态
+  return status;
 }
 
+// [](D:\Document\Hirain\Project\rolling\ros-planning\navigation2\nav2_util\src\lifecycle_service_client.cpp)
+// 这个LifecycleServerClient就相当于这个 "nav2_util\src\lifecycle_service_client.cpp" 角色
+// 反过来，这个cpp实际上就是manager的角色，在 demos/lifecycle 中的例子也是一样的
 /**
  * @brief 生命周期服务客户端类，继承自 rclcpp::Node 类。
  */
@@ -70,11 +74,12 @@ class LifecycleServiceClient : public rclcpp::Node {
 public:
   /**
    * @brief 构造函数，初始化节点名称和被管理节点名称。
-   *
    * @param node_name 节点名称
    * @param managed_node 被管理节点名称(在 nav2 中是 parent_node)
    */
-  explicit LifecycleServiceClient(const std::string& node_name, const std::string& managed_node);
+  explicit LifecycleServiceClient(
+      const std::string& node_name,  //
+      const std::string& managed_node);
 
   /**
    * @brief 初始化生命周期服务客户端。
@@ -83,7 +88,6 @@ public:
 
   /**
    * @brief 获取被管理节点的状态。
-   *
    * @param time_out 等待超时时间，默认为 3 秒
    * @return unsigned int 返回被管理节点的状态码
    */
@@ -91,14 +95,14 @@ public:
 
   /**
    * @brief 改变被管理节点的状态。
-   *
    * @param transition 状态转换码
    * @param time_out 等待超时时间，默认为 3 秒
    * @return true 改变状态成功
    * @return false 改变状态失败
    */
   bool change_state(
-      std::uint8_t transition, std::chrono::seconds time_out = std::chrono::seconds(3));
+      std::uint8_t transition,  //
+      std::chrono::seconds time_out = std::chrono::seconds(3));
 
 private:
   // 生命周期服务获取状态客户端
@@ -111,7 +115,6 @@ private:
 
 /**
  * @brief 启动函数，初始化生命周期服务客户端。
- *
  * @param manager_nodes 管理节点的映射表
  * @param timeout 等待超时时间，默认为 3 秒
  * @return true 初始化成功

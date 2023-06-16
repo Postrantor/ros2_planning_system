@@ -45,49 +45,49 @@ namespace plansys2 {
  * @brief ExecutorNode是nav2_planner组件中的一个节点类，继承自rclcpp_lifecycle::LifecycleNode。
  *        该节点类实现了一系列回调函数和服务/动作回调函数，用于执行规划结果的动作序列，并发布执行信息。
  * @details
- * 参数列表：
- * - node_name：节点名称
- * - domain_path：领域文件路径
- * - problem_path：问题文件路径
- * - action_bt_xml：行为树xml字符串
- * - start_action_bt_xml：起始行为树xml字符串
- * - end_action_bt_xml：结束行为树xml字符串
+ *      参数列表：
+ *      - node_name：节点名称
+ *      - domain_path：领域文件路径
+ *      - problem_path：问题文件路径
+ *      - action_bt_xml：行为树xml字符串
+ *      - start_action_bt_xml：起始行为树xml字符串
+ *      - end_action_bt_xml：结束行为树xml字符串
  *
- * 公共成员函数：
- * - on_configure：配置回调函数
- * - on_activate：激活回调函数
- * - on_deactivate：去激活回调函数
- * - on_cleanup：清理回调函数
- * - on_shutdown：关闭回调函数
- * - on_error：错误回调函数
- * - get_ordered_sub_goals_service_callback：获取有序子目标服务回调函数
- * - get_plan_service_callback：获取计划服务回调函数
+ *      公共成员函数：
+ *      - on_configure：配置回调函数
+ *      - on_activate：激活回调函数
+ *      - on_deactivate：去激活回调函数
+ *      - on_cleanup：清理回调函数
+ *      - on_shutdown：关闭回调函数
+ *      - on_error：错误回调函数
+ *      - get_ordered_sub_goals_service_callback：获取有序子目标服务回调函数
+ *      - get_plan_service_callback：获取计划服务回调函数
  *
- * 受保护成员变量：
- * - node_：节点句柄
- * - cancel_plan_requested_：是否请求取消计划
- * - current_plan_：当前计划
- * - ordered_sub_goals_：有序子目标
- * - action_bt_xml_：行为树xml字符串
- * - start_action_bt_xml_：起始行为树xml字符串
- * - end_action_bt_xml_：结束行为树xml字符串
- * - bt_builder_loader_：行为树构建器插件加载器
- * - domain_client_：领域专家客户端
- * - problem_client_：问题专家客户端
- * - planner_client_：规划器客户端
- * - execution_info_pub_：执行信息发布者
- * - executing_plan_pub_：正在执行的计划发布者
- * - execute_plan_action_server_：执行计划动作服务器
- * - get_ordered_sub_goals_service_：获取有序子目标服务
- * - dotgraph_pub_：dot图发布者
+ *      受保护成员变量：
+ *      - node_：节点句柄
+ *      - cancel_plan_requested_：是否请求取消计划
+ *      - current_plan_：当前计划
+ *      - ordered_sub_goals_：有序子目标
+ *      - action_bt_xml_：行为树xml字符串
+ *      - start_action_bt_xml_：起始行为树xml字符串
+ *      - end_action_bt_xml_：结束行为树xml字符串
+ *      - bt_builder_loader_：行为树构建器插件加载器
+ *      - domain_client_：领域专家客户端
+ *      - problem_client_：问题专家客户端
+ *      - planner_client_：规划器客户端
+ *      - execution_info_pub_：执行信息发布者
+ *      - executing_plan_pub_：正在执行的计划发布者
+ *      - execute_plan_action_server_：执行计划动作服务器
+ *      - get_ordered_sub_goals_service_：获取有序子目标服务
+ *      - dotgraph_pub_：dot图发布者
  *
- * 受保护成员函数：
- * - handle_goal：处理动作执行目标
- * - handle_cancel：处理动作执行取消请求
- * - execute：执行动作序列
- * - handle_accepted：处理动作执行目标接受
- * - get_feedback_info：获取反馈信息
- * - print_execution_info：打印执行信息
+ *      受保护成员函数：
+ *      - handle_goal：处理动作执行目标
+ *      - handle_cancel：处理动作执行取消请求
+ *      - execute：执行动作序列
+ *      - handle_accepted：处理动作执行目标接受
+ *      - get_feedback_info：获取反馈信息
+ *      - print_execution_info：打印执行信息
  */
 
 /**
