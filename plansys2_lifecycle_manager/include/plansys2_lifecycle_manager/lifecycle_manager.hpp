@@ -29,6 +29,11 @@
 
 namespace plansys2 {
 
+/*
+  这段代码又是和 demos/lifecycle 中的代码一样...
+  感觉这个就是manager
+*/
+
 /**
  * @brief 等待一个 future 对象的结果，直到超时或者得到结果。
  *
@@ -67,7 +72,7 @@ public:
    * @brief 构造函数，初始化节点名称和被管理节点名称。
    *
    * @param node_name 节点名称
-   * @param managed_node 被管理节点名称
+   * @param managed_node 被管理节点名称(在 nav2 中是 parent_node)
    */
   explicit LifecycleServiceClient(const std::string& node_name, const std::string& managed_node);
 
